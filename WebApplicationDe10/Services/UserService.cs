@@ -18,12 +18,12 @@ namespace WebApplicationDe10.Services
             foreach (DataRow row in dt.Rows)
             {
                 User user = new User();
-                user.Id             = (int)row["Id"];
-                user.UserName       = row["userName"].ToString();
-                user.PassWord       = row["passWord"].ToString();
-                user.Email          = row["Email"].ToString();
-                user.Address        = row["address"].ToString();
-                user.PhoneNumber    = row["phoneNumber"].ToString();
+                // user.Id             = (int)row["Id"];
+                // user.UserName       = row["userName"].ToString();
+                // user.PassWord       = row["passWord"].ToString();
+                // user.Email          = row["Email"].ToString();
+                // user.Address        = row["address"].ToString();
+                // user.PhoneNumber    = row["phoneNumber"].ToString();
                 users.Add(user);
             }
 

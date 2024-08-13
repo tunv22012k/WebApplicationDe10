@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WebApplicationDe10.Services;
 
 namespace WebApplicationDe10.Controllers
 {
+    // [Authorize]
     public class HomeController : Controller
     {
         private readonly UserService userService;

@@ -1,0 +1,45 @@
+﻿@model WebApplicationDe10.Models.User
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post" action="/Account/Login">
+    @Html.AntiForgeryToken()
+
+    <!-- Hiển thị thông báo lỗi chung -->
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="@(Model?.email)" class="form-control">
+        <span class="text-danger" id="emailError"></span>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" value="@(Model?.password)" class="form-control">
+        <span class="text-danger" id="passwordError"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    }
+                }
+            });
+        });
+    </script>
+}
