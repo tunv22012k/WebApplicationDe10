@@ -8,6 +8,7 @@ namespace WebApplicationDe10.Controllers.Admin
     {
         public ActionResult Index()
         {
+            ViewBag.ActivePage = "Index";
             return View("~/Views/Admin/Home/Index.cshtml");
         }
     }
