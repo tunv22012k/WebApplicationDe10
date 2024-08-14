@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
 
 namespace WebApplicationDe10.Services
@@ -30,11 +31,13 @@ namespace WebApplicationDe10.Services
                     WHERE 
                         email = @email 
                         AND password = @password
+                        AND role = @role
                 ";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@password", hashedPassword);
+                cmd.Parameters.AddWithValue("@role", Constants.RoleAdmin);
 
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();

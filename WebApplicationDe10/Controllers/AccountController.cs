@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System;
+using System.Web.Mvc;
 using System.Web.Security;
 using WebApplicationDe10.Models;
 using WebApplicationDe10.Services;
@@ -27,12 +29,24 @@ namespace WebApplicationDe10.Controllers
             var userLogin = accountService.Authenticate(user.email, user.password);
             if (userLogin != null)
             {
-                FormsAuthentication.SetAuthCookie(userLogin.username, false);
+                // Tạo ticket FormsAuthentication với vai trò người dùng
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                    1,                                      // Version
+                    userLogin.username,                     // User name
+                    DateTime.Now,                           // Issue date
+                    DateTime.Now.AddMinutes(30),            // Expiration
+                    false,                                  // Persistent
+                    userLogin.role                          // User's role
+                );
 
-                // Lưu trữ vai trò trong session để sử dụng ở các nơi khác trong ứng dụng nếu cần
-                Session["userRole"] = userLogin.role;
+                // Mã hóa ticket
+                string encryptedTicket = FormsAuthentication.Encrypt(ticket);
 
-                return RedirectToAction("Index", "Home");
+                // Tạo cookie
+                HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                Response.Cookies.Add(authCookie);
+
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
 
             ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không chính xác.");
