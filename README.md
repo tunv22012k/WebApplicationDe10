@@ -7,7 +7,7 @@ CREATE TABLE users (
 );
 
 INSERT INTO Users (email, username, password, role)
-VALUES ('admin', 'admin@gmail.com', 'pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=', 'Admin');
+VALUES ('admin@gmail.com', 'admin', 'pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=', 'Admin');
 
 INSERT INTO Users (email, username, password, role)
-VALUES ('user1', 'user@gmail.com', 'pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=', 'User');
+VALUES ('user@gmail.com', 'user1', 'pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=', 'User');
