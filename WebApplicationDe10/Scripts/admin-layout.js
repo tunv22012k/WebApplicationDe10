@@ -67,4 +67,24 @@
     $(document).on('click', 'body', function (e) {
         $('.dropdown-menu').hide();
     });
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "lengthMenu": false,
+            "lengthChange": false,
+            "pagingType": "full_numbers", // Hiển thị các nút phân trang chi tiết hơn (First, Last, Next, Previous)
+            "searching": false, // Kích hoạt tìm kiếm
+            "ordering": true, // Kích hoạt sắp xếp
+            "language": {
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            }
+        });
+    });
 })(jQuery); // End of use strict

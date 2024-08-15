@@ -7,6 +7,8 @@ namespace WebApplicationDe10.Helpers
 {
     public static class DatabaseHelper
     {
+        public static string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
         // Hàm để lấy connection string từ file Web.config
         private static string GetConnectionString()
         {

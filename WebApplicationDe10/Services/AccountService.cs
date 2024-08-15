@@ -10,14 +10,12 @@ namespace WebApplicationDe10.Services
 {
     public class AccountService
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
         // Phương thức để xác thực người dùng
         public User Authenticate(string email, string password)
         {
             string hashedPassword = HashPassword(password);
 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(DatabaseHelper.connectionString))
             {
                 string query = @"
                     SELECT 

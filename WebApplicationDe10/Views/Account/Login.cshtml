@@ -3,8 +3,6 @@
     ViewBag.Title = "Login";
 }
 
-@model WebApplicationDe10.Models.User
-
 <div class="form-bg">
     <div class="container">
         <div class="row">
@@ -12,7 +10,7 @@
                 <div class="form-container">
                     <div class="form-icon"><i class="fa fa-user"></i></div>
                     <h3 class="title">Login</h3>
-                    <form method="post" action="/Account/Login" class="form-horizontal">
+                    <form method="POST" action="/Account/Login" class="form-horizontal">
                         @Html.AntiForgeryToken()
 
                         <!-- Hiển thị thông báo lỗi chung -->

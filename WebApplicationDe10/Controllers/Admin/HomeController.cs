@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using WebApplicationDe10.Helpers;
-using WebApplicationDe10.Services;
+using WebApplicationDe10.Models;
 using WebApplicationDe10.Services.Admin;
 
 namespace WebApplicationDe10.Controllers.Admin
@@ -15,10 +15,11 @@ namespace WebApplicationDe10.Controllers.Admin
             homeService = new HomeService();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(User user)
         {
             ViewBag.ActivePage = "Index";
-            ViewBag.listUser = homeService.GetAllUsers();
+            ViewBag.listUser = homeService.GetAllUsers(user);
+            ViewBag.paramsGet = user;
             return View("~/Views/Admin/Home/Index.cshtml");
         }
     }

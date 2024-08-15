@@ -37,10 +37,10 @@
             </li>
 
             <!-- Nav Item - layout 2 -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item @(ViewBag.ActivePage == "CreateUser" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Create", "User", new { area = "Admin" })">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span>
+                    <span>Create User</span>
                 </a>
             </li>
 
@@ -128,13 +128,13 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Scripts/jquery.validate.min.js")
-    @Scripts.Render("~/Scripts/admin-layout.js")
     @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/ScriptsValidate/validation-config.js")
     @Scripts.Render("~/ScriptsValidate/validation-message.js")
     @Scripts.Render("https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js")
     @Scripts.Render("https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js")
+    @Scripts.Render("~/Scripts/admin-layout.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

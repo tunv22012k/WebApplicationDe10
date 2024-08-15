@@ -3,7 +3,31 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<style>
+    .custom-form-search {
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 10px;
+    }
+</style>
+
 <div class="card-body">
+    <form action="@Url.Action("Index", "Home", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
+        <div class="row g-3">
+            <div class="mb-3 col-md-5">
+                <label for="email" class="form-label">Email address</label>
+                <input type="text" class="form-control" id="email" name="email" value="@(ViewBag.paramsGet?.email)">
+            </div>
+            <div class="mb-3 col-md-5">
+                <label for="role" class="form-label">Role</label>
+                <input type="text" class="form-control" name="role" id="password" value="@(ViewBag.paramsGet?.role)">
+            </div>
+        </div>
+        <div class="col-md-12 d-flex justify-content-end align-items-end">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
     <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
@@ -12,6 +36,7 @@
                     <th>Email</th>
                     <th>Name</th>
                     <th>Role</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +47,10 @@
                         <td>@item.email</td>
                         <td>@item.username</td>
                         <td>@item.role</td>
+                        <td>
+                            <button class="btn btn-warning">Edit</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -32,24 +61,6 @@
 <!-- Thêm các script khác ở đây -->
 @section scripts {
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#dataTable').DataTable({
-                "paging": true,
-                "pageLength": 10,
-                "lengthMenu": false,
-                "lengthChange": false,
-                "pagingType": "full_numbers", // Hiển thị các nút phân trang chi tiết hơn (First, Last, Next, Previous)
-                "searching": false, // Kích hoạt tìm kiếm
-                "ordering": true, // Kích hoạt sắp xếp
-                "language": {
-                    "paginate": {
-                        "first": "First",
-                        "last": "Last",
-                        "next": "Next",
-                        "previous": "Previous"
-                    }
-                }
-            });
-        });
+        
     </script>
 }

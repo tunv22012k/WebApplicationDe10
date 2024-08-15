@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Home Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .error {
+        font-size: 1rem;
+        width: 100%;
+    }
+</style>
+
+<div class="card-body">
+    <form method="POST" action="/Admin/User/Create" class="row g-3">
+        @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" placeholder="Username">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Email</label>
+            <input type="text" name="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Password</label>
+            <input type="text" name="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="col-12">
+            <label class="form-label">Role</label>
+            <select class="form-select" name="role">
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Create User</button>
+        </div>
+    </form>
+</div>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").validate({
+                rules: {
+                    username: {
+                        required: true,
+                        maxlength: 10
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        maxlength: 20
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 20
+                    }
+                }
+            });
+        });
+    </script>
+}
