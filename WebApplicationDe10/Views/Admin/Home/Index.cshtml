@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Home Admin";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    var userLogin = Session["UserLogin"] as WebApplicationDe10.Models.User;
+    var userLogin = WebApplicationDe10.Helpers.InfoUserLogin.GetLoggedInUserInfo();
 }
 
 <style>

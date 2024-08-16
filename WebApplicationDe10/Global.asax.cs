@@ -30,7 +30,9 @@ namespace WebApplicationDe10
 
                     // Đảm bảo rằng vai trò được khởi tạo đúng cách từ cookie
                     string[] roles = ticket.UserData.Split(new char[] { ',' });
-                    HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(formsIdentity, roles);
+                    string[] userData = roles[0].Split('|');
+                    string[] role = { userData[0] };
+                    HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(formsIdentity, role);
                 }
             }
         }

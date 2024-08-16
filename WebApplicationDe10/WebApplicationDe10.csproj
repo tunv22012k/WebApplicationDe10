@@ -135,6 +135,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\InfoUserLogin.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Models\Quan_Tri_Vien.cs" />
     <Compile Include="Models\User.cs" />

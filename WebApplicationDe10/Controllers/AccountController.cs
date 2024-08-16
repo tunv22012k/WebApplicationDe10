@@ -36,7 +36,7 @@ namespace WebApplicationDe10.Controllers
                     DateTime.Now,                           // Issue date
                     DateTime.Now.AddMinutes(30),            // Expiration
                     false,                                  // Persistent
-                    userLogin.role                          // User's role
+                    $"{userLogin.role}|{userLogin.userId}|{userLogin.username}|{userLogin.email}" // User's
                 );
 
                 // Mã hóa ticket
