@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
 
@@ -93,6 +89,76 @@ namespace WebApplicationDe10.Services.Admin
             }
 
             return users;
+        }
+
+        public bool DeleteUSer(string userId)
+        {
+            try
+            {
+                bool isSuccess = false;
+
+                // Tạo kết nối với cơ sở dữ liệu
+                using (var connection = new SqlConnection(DatabaseHelper.connectionString))
+                {
+                    string query = "DELETE FROM users WHERE userId = @userId";
+
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@userId", int.Parse(userId));
+
+                    connection.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                    // Nếu số hàng bị ảnh hưởng lớn hơn 0, quá trình chèn đã thành công
+                    isSuccess = rowsAffected > 0;
+                }
+
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Cannot open database connection: " + ex.Message);
+            }
+        }
+
+        public bool EditUSer(User user)
+        {
+            try
+            {
+                bool isSuccess = false;
+
+                // Tạo kết nối với cơ sở dữ liệu
+                using (var connection = new SqlConnection(DatabaseHelper.connectionString))
+                {
+                    string query = @"
+                        UPDATE users 
+                        SET 
+                            username = @username, 
+                            email = @email,
+                            role = @role
+                        WHERE userId = @userId
+                    ";
+
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@username", user.username);
+                    cmd.Parameters.AddWithValue("@email", user.email);
+                    cmd.Parameters.AddWithValue("@role", user.role);
+                    cmd.Parameters.AddWithValue("@userId", user.userId);
+
+                    connection.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                    // Nếu số hàng bị ảnh hưởng lớn hơn 0, quá trình chèn đã thành công
+                    isSuccess = rowsAffected > 0;
+                }
+
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Cannot open database connection: " + ex.Message);
+            }
         }
     }
 }

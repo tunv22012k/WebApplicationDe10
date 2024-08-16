@@ -46,6 +46,9 @@ namespace WebApplicationDe10.Controllers
                 HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
                 Response.Cookies.Add(authCookie);
 
+                // set info user login
+                Session["UserLogin"] = userLogin;
+
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
 

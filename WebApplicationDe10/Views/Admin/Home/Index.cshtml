@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Home Admin";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var userLogin = Session["UserLogin"] as WebApplicationDe10.Models.User;
 }
 
 <style>
@@ -8,6 +9,10 @@
         border: 1px solid;
         border-radius: 10px;
         padding: 10px;
+    }
+    .error {
+        font-size: 1rem;
+        width: 100%;
     }
 </style>
 
@@ -48,19 +53,187 @@
                         <td>@item.username</td>
                         <td>@item.role</td>
                         <td>
-                            <button class="btn btn-warning">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                            @if (userLogin == null || (userLogin != null && (int)userLogin.userId != item.userId))
+                            {
+                                <button 
+                                    class="btn btn-warning btn-edit"
+                                    data-userid="@item.userId"
+                                    data-username="@item.username"
+                                    data-email="@item.email"
+                                    data-role="@item.role"
+                                >
+                                    Edit
+                                </button>
+                                <button class="btn btn-danger btn-delete"
+                                        data-userId="@item.userId"
+                                        data-username="@item.username">
+                                    Delete
+                                </button>
+                            }
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    <!-- Modal delete -->
+    <div class="modal fade"
+         id="modalDelete"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="modalLabelDelete"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelDelete">Modal title</h5>
+                    <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close" data-coreui-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-modal-delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal update -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalLabelEdit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelEdit">Edit user</h5>
+                    <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Id:</label>
+                            <input type="text" disabled class="form-control userId" name="userId" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">User name:</label>
+                            <input type="text" class="form-control username" name="username" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="text" class="form-control email" name="email" id="email" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Role:</label>
+                            <select class="form-select role" name="role">
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close" data-coreui-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-modal-edit">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Thêm các script khác ở đây -->
 @section scripts {
     <script type="text/javascript">
-        
+        $(document).ready(function () {
+            // info modal
+            var modalDelete = new bootstrap.Modal(document.getElementById("modalDelete"), {});
+            var modalEdit = new bootstrap.Modal(document.getElementById("modalEdit"), {});
+
+            // btn close modal
+            $(document).on("click", ".btn-modal-close", function () {
+                modalDelete.hide();
+                modalEdit.hide();
+            });
+
+            // btn delete modal
+            $(document).on("click", ".btn-modal-delete", function () {
+                let data = $(this).data();
+                $.ajax({
+                    url: '@Url.Action("Delete", "Home", new { area = "Admin" })',
+                    type: 'POST',
+                    data: {
+                        userId: data.userid
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert("User deleted successfully.");
+                            location.reload();
+                        } else {
+                            alert("Failed to delete user.");
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while delete the user.");
+                    }
+                });
+            });
+
+            // btn edit modal
+            $(document).on("click", ".btn-modal-edit", function () {
+                let data = $(this).data();
+                $.ajax({
+                    url: '@Url.Action("Edit", "Home", new { area = "Admin" })',
+                    type: 'POST',
+                    data: $("#editUserForm").serialize() + '&userId=' + data.userid,
+                    success: function (response) {
+                        if (response.success) {
+                            alert("User update successfully.");
+                            location.reload();
+                        } else {
+                            alert("Failed to update user.");
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while update the user.");
+                    }
+                });
+            });
+
+            // function edit user
+            $(document).on("click", ".btn-edit", function () {
+                let data = $(this).data();
+                $(".btn-modal-edit").data("userid", data.userid);
+                $(".userId").val(data.userid);
+                $(".username").val(data.username);
+                $(".email").val(data.email);
+                $('.role option[value=' + data.role + ']').attr('selected', 'selected');
+                modalEdit.show();
+            });
+
+            // function delete user
+            $(document).on("click", ".btn-delete", function () {
+                let data = $(this).data();
+                $(".modal-title").text("Xóa user");
+                $(".modal-body").text("Bạn có chắc chắn muốn xóa " + data.username);
+                $(".btn-modal-delete").data("userid", data.userid);
+
+                modalDelete.show();
+            });
+
+            // validate
+            $("#editUserForm").validate({
+                rules: {
+                    username: {
+                        required: true,
+                        maxlength: 10
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        maxlength: 20
+                    }
+                }
+            });
+        });
     </script>
 }
