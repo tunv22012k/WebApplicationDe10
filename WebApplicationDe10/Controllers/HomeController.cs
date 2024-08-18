@@ -3,7 +3,6 @@ using WebApplicationDe10.Services;
 
 namespace WebApplicationDe10.Controllers
 {
-    // [Authorize]
     public class HomeController : Controller
     {
         private readonly UserService userService;
@@ -16,58 +15,13 @@ namespace WebApplicationDe10.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var area = RouteData.Values["area"];
+            var controller = RouteData.Values["controller"];
+            var action = RouteData.Values["action"];
+            ViewBag.ActivePage = "IndexUser";
             var products = userService.GetAllUsers();
             return View(products);
         }
-
-        // public ActionResult Details(int id)
-        // {
-        //     var product = _productService.GetProductById(id);
-        //     if (product == null)
-        //     {
-        //         return HttpNotFound();
-        //     }
-        //     return View(product);
-        // }
-        // 
-        // [HttpPost]
-        // public ActionResult Create(Product product)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         bool success = _productService.AddProduct(product);
-        //         if (success)
-        //         {
-        //             return RedirectToAction("Index");
-        //         }
-        //     }
-        //     return View(product);
-        // }
-        // 
-        // [HttpPost]
-        // public ActionResult Edit(Product product)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         bool success = _productService.UpdateProduct(product);
-        //         if (success)
-        //         {
-        //             return RedirectToAction("Index");
-        //         }
-        //     }
-        //     return View(product);
-        // }
-        // 
-        // [HttpPost]
-        // public ActionResult Delete(int id)
-        // {
-        //     bool success = _productService.DeleteProduct(id);
-        //     if (success)
-        //     {
-        //         return RedirectToAction("Index");
-        //     }
-        //     return HttpNotFound();
-        // }
 
         public ActionResult About()
         {

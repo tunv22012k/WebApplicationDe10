@@ -165,6 +165,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\allin.jpg" />
+    <Content Include="Css\user-layout.css" />
     <Content Include="Css\login-layout.css" />
     <Content Include="Css\custom.css" />
     <Content Include="Css\admin-layout.css" />
@@ -174,6 +175,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="ScriptsValidate\validation-config.js" />
     <Content Include="ScriptsValidate\validation-message.js" />
+    <Content Include="Scripts\user-layout.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
