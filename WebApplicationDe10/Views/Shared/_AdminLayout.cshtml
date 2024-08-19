@@ -48,10 +48,42 @@
             </li>
 
             <!-- Nav Item - layout 3 -->
-            <li class="nav-item">
+            <li class="nav-item @(ViewBag.ActivePage == "ListCategory" ? "active" : "")">
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span>
+                    <span>Danh mục sản phẩm</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - layout 4 -->
+            <li class="nav-item @(ViewBag.ActivePage == "CreateCategory" ? "active" : "")">
+                <a class="nav-link" href="tables.html">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Tạo danh mục</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - layout 5 -->
+            <li class="nav-item @(ViewBag.ActivePage == "listProduct" ? "active" : "")">
+                <a class="nav-link" href="tables.html">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Danh sách sản phẩm</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - layout 6 -->
+            <li class="nav-item">
+                <a class="nav-link @(ViewBag.ActivePage == "CreateProduct" ? "active" : "")" href="tables.html">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Tạo sản phẩm</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - layout 7 -->
+            <li class="nav-item @(ViewBag.ActivePage == "InfoCart" ? "active" : "")">
+                <a class="nav-link" href="tables.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Thông tin mua hàng</span>
                 </a>
             </li>
 
