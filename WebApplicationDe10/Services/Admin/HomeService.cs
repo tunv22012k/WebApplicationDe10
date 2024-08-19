@@ -8,26 +8,9 @@ namespace WebApplicationDe10.Services.Admin
 {
     public class HomeService
     {
-        public List<User> GetAllUsers(User paramsUser)
+        public List<QuanTriVien> GetAllUsers(QuanTriVien paramsUser)
         {
-            /*string query = "SELECT * FROM users";
-            DataTable dt = DatabaseHelper.ExecuteQuery(query);
-
-            List<User> users = new List<User>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                User user = new User();
-                user.userId = (int)row["userId"];
-                user.email = row["email"].ToString();
-                user.username = row["username"].ToString();
-                user.role = row["role"].ToString();
-                users.Add(user);
-            }
-
-            return users;*/
-
-            List<User> users = new List<User>();
+            List<QuanTriVien> users = new List<QuanTriVien>();
 
             using (var connection = new SqlConnection(DatabaseHelper.connectionString))
             {
@@ -35,40 +18,40 @@ namespace WebApplicationDe10.Services.Admin
                     SELECT 
                         *
                     FROM 
-                        users
+                        QuanTriVien
                 ";
 
-                if (!string.IsNullOrEmpty(paramsUser.email) || !string.IsNullOrEmpty(paramsUser.role))
+                if (!string.IsNullOrEmpty(paramsUser.Email) || !string.IsNullOrEmpty(paramsUser.TenQuanTriVien))
                 {
                     bool isAnd = false;
                     query += " WHERE";
 
-                    if (!string.IsNullOrEmpty(paramsUser.email))
+                    if (!string.IsNullOrEmpty(paramsUser.Email))
                     {
-                        query += " email LIKE @email";
+                        query += " Email LIKE @Email";
                         isAnd = true;
                     }
 
-                    if (!string.IsNullOrEmpty(paramsUser.role))
+                    if (!string.IsNullOrEmpty(paramsUser.TenQuanTriVien))
                     {
                         if (isAnd)
                         {
                             query += " AND";
                         }
-                        query += " role LIKE @role";
+                        query += " TenQuanTriVien LIKE @TenQuanTriVien";
                         isAnd = true;
                     }
                 }
 
                 SqlCommand cmd = new SqlCommand(query, connection);
 
-                if (!string.IsNullOrEmpty(paramsUser.email))
+                if (!string.IsNullOrEmpty(paramsUser.Email))
                 {
-                    cmd.Parameters.AddWithValue("@email", "%" + paramsUser.email + "%");
+                    cmd.Parameters.AddWithValue("@Email", "%" + paramsUser.Email + "%");
                 }
-                if (!string.IsNullOrEmpty(paramsUser.role))
+                if (!string.IsNullOrEmpty(paramsUser.TenQuanTriVien))
                 {
-                    cmd.Parameters.AddWithValue("@role", "%" + paramsUser.role + "%");
+                    cmd.Parameters.AddWithValue("@TenQuanTriVien", "%" + paramsUser.TenQuanTriVien + "%");
                 }
 
                 connection.Open();
@@ -77,12 +60,11 @@ namespace WebApplicationDe10.Services.Admin
                 {
                     while (reader.Read())
                     {
-                        users.Add(new User
+                        users.Add(new QuanTriVien
                         {
-                            userId = (int)reader["userId"],
-                            email = reader["email"].ToString(),
-                            username = reader["username"].ToString(),
-                            role = reader["role"].ToString()
+                            MaQuanTriVien   = (int)reader["MaQuanTriVien"],
+                            Email           = reader["Email"].ToString(),
+                            TenQuanTriVien  = reader["TenQuanTriVien"].ToString()
                         });
                     }
                 }
@@ -100,7 +82,7 @@ namespace WebApplicationDe10.Services.Admin
                 // Tạo kết nối với cơ sở dữ liệu
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
-                    string query = "DELETE FROM users WHERE userId = @userId";
+                    string query = "DELETE FROM QuanTriVien WHERE MaQuanTriVien = @userId";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
                     cmd.Parameters.AddWithValue("@userId", int.Parse(userId));
@@ -121,7 +103,7 @@ namespace WebApplicationDe10.Services.Admin
             }
         }
 
-        public bool EditUSer(User user)
+        public bool EditUSer(QuanTriVien user)
         {
             try
             {
@@ -131,19 +113,18 @@ namespace WebApplicationDe10.Services.Admin
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
                     string query = @"
-                        UPDATE users 
+                        UPDATE QuanTriVien 
                         SET 
-                            username = @username, 
-                            email = @email,
-                            role = @role
-                        WHERE userId = @userId
+                            TenQuanTriVien = @TenQuanTriVien, 
+                            Email = @Email
+                        WHERE 
+                            MaQuanTriVien = @MaQuanTriVien
                     ";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@username", user.username);
-                    cmd.Parameters.AddWithValue("@email", user.email);
-                    cmd.Parameters.AddWithValue("@role", user.role);
-                    cmd.Parameters.AddWithValue("@userId", user.userId);
+                    cmd.Parameters.AddWithValue("@TenQuanTriVien", user.TenQuanTriVien);
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    cmd.Parameters.AddWithValue("@MaQuanTriVien", user.MaQuanTriVien);
 
                     connection.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();

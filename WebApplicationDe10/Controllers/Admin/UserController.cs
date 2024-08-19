@@ -21,7 +21,7 @@ namespace WebApplicationDe10.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(User user)
+        public ActionResult Create(QuanTriVien user)
         {
             if (ModelState.IsValid)
             {

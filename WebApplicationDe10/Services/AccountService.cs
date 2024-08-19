@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,7 +10,7 @@ namespace WebApplicationDe10.Services
     public class AccountService
     {
         // Phương thức để xác thực người dùng
-        public User Authenticate(string email, string password)
+        public QuanTriVien Authenticate(string email, string password)
         {
             string hashedPassword = HashPassword(password);
 
@@ -19,35 +18,31 @@ namespace WebApplicationDe10.Services
             {
                 string query = @"
                     SELECT 
-                        userId, 
-                        email,
-                        username,
-                        password, 
-                        role
+                        MaQuanTriVien, 
+                        TenQuanTriVien,
+                        MatKhauQuanTriVien,
+                        Email
                     FROM 
-                        users
+                        QuanTriVien
                     WHERE 
-                        email = @email 
-                        AND password = @password
-                        AND role = @role
+                        Email = @Email 
+                        AND MatKhauQuanTriVien = @MatKhauQuanTriVien
                 ";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.Parameters.AddWithValue("@password", hashedPassword);
-                cmd.Parameters.AddWithValue("@role", Constants.RoleAdmin);
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@MatKhauQuanTriVien", hashedPassword);
 
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    return new User
+                    return new QuanTriVien
                     {
-                        userId      = (int)reader["userId"],
-                        email       = reader["email"].ToString(),
-                        username    = reader["username"].ToString(),
-                        role        = reader["role"].ToString()
+                        MaQuanTriVien   = (int)reader["MaQuanTriVien"],
+                        Email           = reader["Email"].ToString(),
+                        TenQuanTriVien  = reader["TenQuanTriVien"].ToString()
                     };
                 }
             }

@@ -18,11 +18,11 @@
 
                         <div class="form-group">
                             <label>email</label>
-                            <input type="email" name="email" id="email" value="@(Model?.email)" class="form-control" placeholder="email address">
+                            <input type="email" name="Email" id="email" value="@(Model?.Email)" class="form-control" placeholder="email address">
                         </div>
                         <div class="form-group">
                             <label>password</label>
-                            <input type="password" name="password" id="password" value="@(Model?.password)" class="form-control" placeholder="password">
+                            <input type="password" name="MatKhauQuanTriVien" id="password" value="@(Model?.MatKhauQuanTriVien)" class="form-control" placeholder="password">
                         </div>
                         <button type="submit" class="btn btn-default">Login</button>
                     </form>
@@ -38,11 +38,11 @@
         $(document).ready(function () {
             $("form").validate({
                 rules: {
-                    email: {
+                    Email: {
                         required: true,
                         email: true
                     },
-                    password: {
+                    MatKhauQuanTriVien: {
                         required: true
                     }
                 }

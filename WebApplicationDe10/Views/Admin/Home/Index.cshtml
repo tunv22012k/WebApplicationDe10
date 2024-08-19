@@ -20,16 +20,16 @@
     <form action="@Url.Action("Index", "Home", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
         <div class="row g-3">
             <div class="mb-3 col-md-5">
-                <label for="email" class="form-label">Email address</label>
-                <input type="text" class="form-control" id="email" name="email" value="@(ViewBag.paramsGet?.email)">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" name="Email" value="@(ViewBag.paramsGet?.Email)">
             </div>
             <div class="mb-3 col-md-5">
-                <label for="role" class="form-label">Role</label>
-                <input type="text" class="form-control" name="role" id="password" value="@(ViewBag.paramsGet?.role)">
+                <label for="role" class="form-label">Tên quản trị viên</label>
+                <input type="text" class="form-control" name="TenQuanTriVien" id="TenQuanTriVien" value="@(ViewBag.paramsGet?.TenQuanTriVien)">
             </div>
         </div>
         <div class="col-md-12 d-flex justify-content-end align-items-end">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </div>
     </form>
 
@@ -39,8 +39,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Email</th>
-                    <th>Name</th>
-                    <th>Role</th>
+                    <th>Tên quản trị viên</th>
                     <th>Options</th>
                 </tr>
             </thead>
@@ -48,25 +47,23 @@
                 @foreach (var item in @ViewBag.listUser)
                 {
                     <tr>
-                        <td>@item.userId</td>
-                        <td>@item.email</td>
-                        <td>@item.username</td>
-                        <td>@item.role</td>
+                        <td>@item.MaQuanTriVien</td>
+                        <td>@item.Email</td>
+                        <td>@item.TenQuanTriVien</td>
                         <td>
-                            @if (userLogin == null || (userLogin != null && (int)userLogin.userId != item.userId))
+                            @if (userLogin == null || (userLogin != null && (int)userLogin.MaQuanTriVien != item.MaQuanTriVien))
                             {
                                 <button 
                                     class="btn btn-warning btn-edit"
-                                    data-userid="@item.userId"
-                                    data-username="@item.username"
-                                    data-email="@item.email"
-                                    data-role="@item.role"
+                                    data-userid="@item.MaQuanTriVien"
+                                    data-username="@item.TenQuanTriVien"
+                                    data-email="@item.Email"
                                 >
                                     Edit
                                 </button>
                                 <button class="btn btn-danger btn-delete"
-                                        data-userId="@item.userId"
-                                        data-username="@item.username">
+                                        data-userId="@item.MaQuanTriVien"
+                                        data-username="@item.TenQuanTriVien">
                                     Delete
                                 </button>
                             }
@@ -113,22 +110,15 @@
                     <form id="editUserForm">
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Id:</label>
-                            <input type="text" disabled class="form-control userId" name="userId" value="">
+                            <input type="text" disabled class="form-control userId" name="MaQuanTriVien" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">User name:</label>
-                            <input type="text" class="form-control username" name="username" value="">
+                            <label for="recipient-name" class="col-form-label">Tên quản trị viên:</label>
+                            <input type="text" class="form-control username" name="TenQuanTriVien" value="">
                         </div>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Email:</label>
-                            <input type="text" class="form-control email" name="email" id="email" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Role:</label>
-                            <select class="form-select role" name="role">
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
-                            </select>
+                            <input type="text" class="form-control email" name="Email" id="email" value="">
                         </div>
                     </form>
                 </div>
@@ -184,7 +174,7 @@
                 $.ajax({
                     url: '@Url.Action("Edit", "Home", new { area = "Admin" })',
                     type: 'POST',
-                    data: $("#editUserForm").serialize() + '&userId=' + data.userid,
+                    data: $("#editUserForm").serialize() + '&MaQuanTriVien=' + data.userid,
                     success: function (response) {
                         if (response.success) {
                             alert("User update successfully.");
@@ -206,7 +196,6 @@
                 $(".userId").val(data.userid);
                 $(".username").val(data.username);
                 $(".email").val(data.email);
-                $('.role option[value=' + data.role + ']').attr('selected', 'selected');
                 modalEdit.show();
             });
 
@@ -223,11 +212,11 @@
             // validate
             $("#editUserForm").validate({
                 rules: {
-                    username: {
+                    TenQuanTriVien: {
                         required: true,
                         maxlength: 10
                     },
-                    email: {
+                    Email: {
                         required: true,
                         email: true,
                         maxlength: 20

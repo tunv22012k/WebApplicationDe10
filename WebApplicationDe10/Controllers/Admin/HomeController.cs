@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Web.Mvc;
 using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
@@ -18,7 +16,7 @@ namespace WebApplicationDe10.Controllers.Admin
             homeService = new HomeService();
         }
 
-        public ActionResult Index(User user)
+        public ActionResult Index(QuanTriVien user)
         {
             ViewBag.ActivePage = "Index";
             ViewBag.listUser = homeService.GetAllUsers(user);
@@ -41,7 +39,7 @@ namespace WebApplicationDe10.Controllers.Admin
         }
 
         [HttpPost]
-        public JsonResult Edit(User user)
+        public JsonResult Edit(QuanTriVien user)
         {
             try
             {

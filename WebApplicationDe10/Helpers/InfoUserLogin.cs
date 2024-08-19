@@ -7,7 +7,7 @@ namespace WebApplicationDe10.Helpers
 {
     public static class InfoUserLogin
     {
-        public static User GetLoggedInUserInfo()
+        public static QuanTriVien GetLoggedInUserInfo()
         {
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
@@ -15,12 +15,11 @@ namespace WebApplicationDe10.Helpers
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                 string[] userData = authTicket.UserData.Split('|');
 
-                var userInfo = new User
+                var userInfo = new QuanTriVien
                 {
-                    userId = int.Parse(userData[1]),
-                    username = userData[2],
-                    email = userData[3],
-                    role = userData[0]
+                    MaQuanTriVien   = int.Parse(userData[1]),
+                    TenQuanTriVien  = userData[2],
+                    Email           = userData[3]
                 };
 
                 return userInfo;

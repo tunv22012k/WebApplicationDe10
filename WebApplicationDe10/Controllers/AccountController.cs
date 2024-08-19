@@ -24,19 +24,19 @@ namespace WebApplicationDe10.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(User user)
+        public ActionResult Login(QuanTriVien user)
         {
-            var userLogin = accountService.Authenticate(user.email, user.password);
+            var userLogin = accountService.Authenticate(user.Email, user.MatKhauQuanTriVien);
             if (userLogin != null)
             {
                 // Tạo ticket FormsAuthentication với vai trò người dùng
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                     1,                                      // Version
-                    userLogin.username,                     // User name
+                    userLogin.TenQuanTriVien,               // User name
                     DateTime.Now,                           // Issue date
                     DateTime.Now.AddMinutes(30),            // Expiration
                     false,                                  // Persistent
-                    $"{userLogin.role}|{userLogin.userId}|{userLogin.username}|{userLogin.email}" // User's
+                    $"Admin|{userLogin.MaQuanTriVien}|{userLogin.TenQuanTriVien}|{userLogin.Email}" // User's
                 );
 
                 // Mã hóa ticket

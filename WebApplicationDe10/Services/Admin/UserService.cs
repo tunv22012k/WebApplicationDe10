@@ -10,40 +10,43 @@ namespace WebApplicationDe10.Services.Admin
 {
     public class UserService
     {
-        public bool CreateUSer(User user)
+        public bool CreateUSer(QuanTriVien user)
         {
             try
             {
                 bool isSuccess = false;
 
                 // Mã hóa mật khẩu hoặc xử lý khác nếu cần
-                string hashedPassword = HashPassword(user.password);
+                string hashedPassword = HashPassword(user.MatKhauQuanTriVien);
 
                 // Tạo kết nối với cơ sở dữ liệu và lưu thông tin người dùng
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
                     string query = @"
-                        INSERT INTO users 
+                        INSERT INTO QuanTriVien 
                         (
-                            username, 
-                            email,
-                            password,
-                            role
+                            TenQuanTriVien, 
+                            Email,
+                            MatKhauQuanTriVien,
+                            NgayTao,
+                            NgayCapNhat
                         ) 
                         VALUES 
                         (
-                            @username,
-                            @email,
-                            @password,
-                            @role
+                            @TenQuanTriVien,
+                            @Email,
+                            @MatKhauQuanTriVien,
+                            @NgayTao,
+                            @NgayCapNhat
                         )
                     ";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@username", user.username);
-                    cmd.Parameters.AddWithValue("@email", user.email);
-                    cmd.Parameters.AddWithValue("@password", hashedPassword);
-                    cmd.Parameters.AddWithValue("@role", user.role);
+                    cmd.Parameters.AddWithValue("@TenQuanTriVien", user.TenQuanTriVien);
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    cmd.Parameters.AddWithValue("@MatKhauQuanTriVien", hashedPassword);
+                    cmd.Parameters.AddWithValue("@NgayTao", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@NgayCapNhat", DateTime.Now);
 
                     connection.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();

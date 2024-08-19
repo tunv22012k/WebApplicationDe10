@@ -15,9 +15,6 @@ namespace WebApplicationDe10.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var area = RouteData.Values["area"];
-            var controller = RouteData.Values["controller"];
-            var action = RouteData.Values["action"];
             ViewBag.ActivePage = "IndexUser";
             var products = userService.GetAllUsers();
             return View(products);

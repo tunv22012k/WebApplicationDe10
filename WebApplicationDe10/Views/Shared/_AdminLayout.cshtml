@@ -35,7 +35,7 @@
             <li class="nav-item @(ViewBag.ActivePage == "Index" ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Index", "Home", new { area = "Admin" })">
                     <i class="fa fa-user"></i>
-                    <span>Dashboard</span>
+                    <span>Danh sách Admin</span>
                 </a>
             </li>
 
@@ -43,7 +43,7 @@
             <li class="nav-item @(ViewBag.ActivePage == "CreateUser" ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Create", "User", new { area = "Admin" })">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Create User</span>
+                    <span>Tạo Admin</span>
                 </a>
             </li>
 
@@ -84,7 +84,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@userLogin.username</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@userLogin.TenQuanTriVien</span>
                                 <img class="img-profile rounded-circle" src="~/Content/Images/allin.jpg">
                             </a>
                             <!-- Dropdown - User Information -->
