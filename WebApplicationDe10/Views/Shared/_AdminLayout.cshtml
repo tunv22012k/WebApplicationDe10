@@ -57,7 +57,7 @@
 
             <!-- Nav Item - layout 4 -->
             <li class="nav-item @(ViewBag.ActivePage == "CreateCategory" ? "active" : "")">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="@Url.Action("Create", "DanhMuc", new { area = "Admin" })">
                     <i class="fa-solid fa-layer-group"></i>
                     <span>Tạo danh mục</span>
                 </a>

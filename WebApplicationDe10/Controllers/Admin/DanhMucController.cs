@@ -2,6 +2,7 @@
 using System.Web.ApplicationServices;
 using System.Web.Mvc;
 using WebApplicationDe10.Models;
+using WebApplicationDe10.Services;
 using WebApplicationDe10.Services.Admin;
 
 namespace WebApplicationDe10.Controllers.Admin
@@ -21,6 +22,27 @@ namespace WebApplicationDe10.Controllers.Admin
             ViewBag.listDanhMuc = danhMucService.GetAllDanhMuc(danhMucSanPham);
             ViewBag.paramsGet = danhMucSanPham;
             return View("~/Views/Admin/DanhMuc/Index.cshtml");
+        }
+
+        public ActionResult Create()
+        {
+            ViewBag.ActivePage = "CreateCategory";
+            return View("~/Views/Admin/DanhMuc/Create.cshtml");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(DanhMucSanPham danhMucSanPham)
+        {
+            if (ModelState.IsValid)
+            {
+                bool success = danhMucService.CreateDanhMuc(danhMucSanPham);
+                if (success)
+                {
+                    return RedirectToAction("Index", "DanhMuc", new { area = "Admin" });
+                }
+            }
+            return View(danhMucSanPham);
         }
 
         [HttpPost]

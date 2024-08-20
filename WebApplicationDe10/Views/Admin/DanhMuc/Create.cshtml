@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Home Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .error {
+        font-size: 1rem;
+        width: 100%;
+    }
+</style>
+
+<div class="card-body">
+    <form method="POST" action="/Admin/DanhMuc/Create" class="row g-3">
+        @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            <label class="form-label">Tên danh mục</label>
+            <input type="text" name="TenDanhMuc" class="form-control" placeholder="Tên danh mục">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Mô tả</label>
+            <input type="text" name="MoTa" class="form-control" placeholder="Mô tả">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Tạo danh mục</button>
+        </div>
+    </form>
+</div>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").validate({
+                rules: {
+                    TenDanhMuc: {
+                        required: true,
+                        maxlength: 20
+                    },
+                    MoTa: {
+                        required: true,
+                        maxlength: 20
+                    }
+                }
+            });
+        });
+    </script>
+}

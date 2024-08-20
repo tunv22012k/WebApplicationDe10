@@ -75,6 +75,54 @@ namespace WebApplicationDe10.Services.Admin
             return danhMuc;
         }
 
+        public bool CreateDanhMuc(DanhMucSanPham danhMucSanPham)
+        {
+            try
+            {
+                bool isSuccess = false;
+
+                // Tạo kết nối với cơ sở dữ liệu và lưu thông tin người dùng
+                using (var connection = new SqlConnection(DatabaseHelper.connectionString))
+                {
+                    string query = @"
+                        INSERT INTO DanhMucSanPham 
+                        (
+                            TenDanhMuc,
+                            MoTa,
+                            NgayTao,
+                            NgayCapNhat
+                        ) 
+                        VALUES 
+                        (
+                            @TenDanhMuc,
+                            @MoTa,
+                            @NgayTao,
+                            @NgayCapNhat
+                        )
+                    ";
+
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@TenDanhMuc", danhMucSanPham.TenDanhMuc);
+                    cmd.Parameters.AddWithValue("@MoTa", danhMucSanPham.MoTa);
+                    cmd.Parameters.AddWithValue("@NgayTao", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@NgayCapNhat", DateTime.Now);
+
+                    connection.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                    // Nếu số hàng bị ảnh hưởng lớn hơn 0, quá trình chèn đã thành công
+                    isSuccess = rowsAffected > 0;
+                }
+
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Cannot open database connection: " + ex.Message);
+            }
+        }
+
         public bool DeleteDanhMuc(string MaDanhMuc)
         {
             try
