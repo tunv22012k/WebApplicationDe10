@@ -20,15 +20,15 @@
 </style>
 
 <div class="card-body">
-    <form action="@Url.Action("Index", "Home", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
+    <form action="@Url.Action("Index", "DanhMuc", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
         <div class="row g-3">
             <div class="mb-3 col-md-5">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="email" name="Email" value="@(ViewBag.paramsGet?.Email)">
+                <label for="email" class="form-label">Tên danh mục</label>
+                <input type="text" class="form-control" id="TenDanhMuc" name="TenDanhMuc" value="@(ViewBag.paramsGet?.TenDanhMuc)">
             </div>
             <div class="mb-3 col-md-5">
-                <label for="role" class="form-label">Tên quản trị viên</label>
-                <input type="text" class="form-control" name="TenQuanTriVien" id="TenQuanTriVien" value="@(ViewBag.paramsGet?.TenQuanTriVien)">
+                <label for="role" class="form-label">Mô tả</label>
+                <input type="text" class="form-control" name="MoTa" id="MoTa" value="@(ViewBag.paramsGet?.MoTa)">
             </div>
         </div>
         <div class="col-md-12 d-flex justify-content-end align-items-end">
@@ -41,37 +41,36 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Email</th>
-                    <th>Tên quản trị viên</th>
+                    <th>Tên danh mục</th>
+                    <th>Mô tả</th>
                     <th>Ngày tạo</th>
                     <th>Ngày cập nhật</th>
                     <th>Options</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in @ViewBag.listUser)
+                @foreach (var item in @ViewBag.listDanhMuc)
                 {
                     <tr>
-                        <td>@item.MaQuanTriVien</td>
-                        <td>@item.Email</td>
-                        <td>@item.TenQuanTriVien</td>
+                        <td>@item.MaDanhMuc</td>
+                        <td>@item.TenDanhMuc</td>
+                        <td>@item.MoTa</td>
                         <td>@item.NgayTao</td>
                         <td>@item.NgayCapNhat</td>
                         <td>
-                            @if (userLogin == null || (userLogin != null && (int)userLogin.MaQuanTriVien != item.MaQuanTriVien))
-                            {
-                                <button class="btn btn-warning btn-edit"
-                                        data-userid="@item.MaQuanTriVien"
-                                        data-username="@item.TenQuanTriVien"
-                                        data-email="@item.Email">
-                                    Chỉnh sửa
-                                </button>
-                                <button class="btn btn-danger btn-delete"
-                                        data-userId="@item.MaQuanTriVien"
-                                        data-username="@item.TenQuanTriVien">
-                                    Xóa
-                                </button>
-                            }
+                            <button class="btn btn-warning btn-edit"
+                                    data-MaDanhMuc="@item.MaDanhMuc"
+                                    data-TenDanhMuc="@item.TenDanhMuc"
+                                    data-MoTa="@item.MoTa"
+                            >
+                                Chỉnh sửa
+                            </button>
+                            <button class="btn btn-danger btn-delete"
+                                    data-MaDanhMuc="@item.MaDanhMuc"
+                                    data-TenDanhMuc="@item.TenDanhMuc"
+                            >
+                                Xóa
+                            </button>
                         </td>
                     </tr>
                 }
@@ -89,7 +88,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabelDelete">Xóa người dùng Admin</h5>
+                    <h5 class="modal-title" id="modalLabelDelete">Xóa danh mục</h5>
                     <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -108,22 +107,22 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabelEdit">Chỉnh sửa người dùng Admin</h5>
+                    <h5 class="modal-title" id="modalLabelEdit">Chỉnh sửa danh mục</h5>
                     <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editUserForm">
+                    <form id="formEdit">
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Id:</label>
-                            <input type="text" disabled class="form-control userId" name="MaQuanTriVien" value="">
+                            <input type="text" disabled class="form-control MaDanhMuc" name="MaDanhMuc" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Tên quản trị viên:</label>
-                            <input type="text" class="form-control username" name="TenQuanTriVien" value="">
+                            <label for="recipient-name" class="col-form-label">Tên danh mục:</label>
+                            <input type="text" class="form-control TenDanhMuc" name="TenDanhMuc" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Email:</label>
-                            <input type="text" class="form-control email" name="Email" id="email" value="">
+                            <label for="recipient-name" class="col-form-label">Mô tả:</label>
+                            <input type="text" class="form-control MoTa" name="MoTa" value="">
                         </div>
                     </form>
                 </div>
@@ -154,21 +153,21 @@
             $(document).on("click", ".btn-modal-delete", function () {
                 let data = $(this).data();
                 $.ajax({
-                    url: '@Url.Action("Delete", "Home", new { area = "Admin" })',
+                    url: '@Url.Action("Delete", "DanhMuc", new { area = "Admin" })',
                     type: 'POST',
                     data: {
-                        userId: data.userid
+                        MaDanhMuc: data.MaDanhMuc
                     },
                     success: function (response) {
                         if (response.success) {
-                            alert("Xóa người dùng thành công");
+                            alert("Xóa danh mục thành công");
                             location.reload();
                         } else {
-                            alert("Xóa người dùng thất bại");
+                            alert("Xóa danh mục thất bại");
                         }
                     },
                     error: function () {
-                        alert("Lỗi khi xóa người dùng");
+                        alert("Đã xảy ra lỗi khi xóa danh mục");
                     }
                 });
             });
@@ -177,19 +176,19 @@
             $(document).on("click", ".btn-modal-edit", function () {
                 let data = $(this).data();
                 $.ajax({
-                    url: '@Url.Action("Edit", "Home", new { area = "Admin" })',
+                    url: '@Url.Action("Edit", "DanhMuc", new { area = "Admin" })',
                     type: 'POST',
-                    data: $("#editUserForm").serialize() + '&MaQuanTriVien=' + data.userid,
+                    data: $("#formEdit").serialize() + '&MaDanhMuc=' + data.MaDanhMuc,
                     success: function (response) {
                         if (response.success) {
-                            alert("Chỉnh sửa người dùng thành công");
+                            alert("Chỉnh sửa danh mục thành công");
                             location.reload();
                         } else {
-                            alert("Chỉnh sửa người dùng thất bại");
+                            alert("Chỉnh sửa danh mục thất bại");
                         }
                     },
                     error: function () {
-                        alert("Lỗi khi chỉnh sửa người dùng");
+                        alert("Đã xảy ra lỗi khi chỉnh sửa danh mục");
                     }
                 });
             });
@@ -197,33 +196,28 @@
             // function edit user
             $(document).on("click", ".btn-edit", function () {
                 let data = $(this).data();
-                $(".btn-modal-edit").data("userid", data.userid);
-                $(".userId").val(data.userid);
-                $(".username").val(data.username);
-                $(".email").val(data.email);
+                $(".btn-modal-edit").data("MaDanhMuc", data.madanhmuc);
+                $(".MaDanhMuc").val(data.madanhmuc);
+                $(".TenDanhMuc").val(data.tendanhmuc);
+                $(".MoTa").val(data.mota);
                 modalEdit.show();
             });
 
             // function delete user
             $(document).on("click", ".btn-delete", function () {
                 let data = $(this).data();
-                $(".modal-title").text("Xóa người dùng Admin");
-                $(".modal-body").text("Bạn có chắc chắn muốn xóa " + data.username);
-                $(".btn-modal-delete").data("userid", data.userid);
+                $(".modal-title").text("Xóa danh mục");
+                $(".modal-body").text("Bạn có chắc chắn muốn xóa " + data.tendanhmuc);
+                $(".btn-modal-delete").data("MaDanhMuc", data.madanhmuc);
 
                 modalDelete.show();
             });
 
             // validate
-            $("#editUserForm").validate({
+            $("#formEdit").validate({
                 rules: {
-                    TenQuanTriVien: {
+                    TenDanhMuc: {
                         required: true,
-                        maxlength: 10
-                    },
-                    Email: {
-                        required: true,
-                        email: true,
                         maxlength: 20
                     }
                 }

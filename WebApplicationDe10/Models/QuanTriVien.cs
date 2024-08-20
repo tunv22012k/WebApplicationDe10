@@ -12,6 +12,6 @@ namespace WebApplicationDe10.Models
         public string MatKhauQuanTriVien { get; set; }
         public string Email { get; set; }
         public DateTime NgayTao { get; set; }
-        public DateTime NgayCapNhat { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
     }
 }

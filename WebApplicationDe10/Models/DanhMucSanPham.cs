@@ -11,6 +11,6 @@ namespace WebApplicationDe10.Models
         public string TenDanhMuc { get; set; }
         public string MoTa { get; set; }
         public DateTime NgayTao { get; set; }
-        public DateTime NgayCapNhat { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
     }
 }

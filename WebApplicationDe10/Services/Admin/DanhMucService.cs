@@ -6,11 +6,11 @@ using WebApplicationDe10.Models;
 
 namespace WebApplicationDe10.Services.Admin
 {
-    public class HomeService
+    public class DanhMucService
     {
-        public List<QuanTriVien> GetAllUsers(QuanTriVien paramsUser)
+        public List<DanhMucSanPham> GetAllDanhMuc(DanhMucSanPham paramsDanhMuc)
         {
-            List<QuanTriVien> users = new List<QuanTriVien>();
+            List<DanhMucSanPham> danhMuc = new List<DanhMucSanPham>();
 
             using (var connection = new SqlConnection(DatabaseHelper.connectionString))
             {
@@ -18,40 +18,40 @@ namespace WebApplicationDe10.Services.Admin
                     SELECT 
                         *
                     FROM 
-                        QuanTriVien
+                        DanhMucSanPham
                 ";
 
-                if (!string.IsNullOrEmpty(paramsUser.Email) || !string.IsNullOrEmpty(paramsUser.TenQuanTriVien))
+                if (!string.IsNullOrEmpty(paramsDanhMuc.TenDanhMuc) || !string.IsNullOrEmpty(paramsDanhMuc.MoTa))
                 {
                     bool isAnd = false;
                     query += " WHERE";
 
-                    if (!string.IsNullOrEmpty(paramsUser.Email))
+                    if (!string.IsNullOrEmpty(paramsDanhMuc.TenDanhMuc))
                     {
-                        query += " Email LIKE @Email";
+                        query += " TenDanhMuc LIKE @TenDanhMuc";
                         isAnd = true;
                     }
 
-                    if (!string.IsNullOrEmpty(paramsUser.TenQuanTriVien))
+                    if (!string.IsNullOrEmpty(paramsDanhMuc.MoTa))
                     {
                         if (isAnd)
                         {
                             query += " AND";
                         }
-                        query += " TenQuanTriVien LIKE @TenQuanTriVien";
+                        query += " MoTa LIKE @MoTa";
                         isAnd = true;
                     }
                 }
 
                 SqlCommand cmd = new SqlCommand(query, connection);
 
-                if (!string.IsNullOrEmpty(paramsUser.Email))
+                if (!string.IsNullOrEmpty(paramsDanhMuc.TenDanhMuc))
                 {
-                    cmd.Parameters.AddWithValue("@Email", "%" + paramsUser.Email + "%");
+                    cmd.Parameters.AddWithValue("@TenDanhMuc", "%" + paramsDanhMuc.TenDanhMuc + "%");
                 }
-                if (!string.IsNullOrEmpty(paramsUser.TenQuanTriVien))
+                if (!string.IsNullOrEmpty(paramsDanhMuc.MoTa))
                 {
-                    cmd.Parameters.AddWithValue("@TenQuanTriVien", "%" + paramsUser.TenQuanTriVien + "%");
+                    cmd.Parameters.AddWithValue("@MoTa", "%" + paramsDanhMuc.MoTa + "%");
                 }
 
                 connection.Open();
@@ -60,22 +60,22 @@ namespace WebApplicationDe10.Services.Admin
                 {
                     while (reader.Read())
                     {
-                        users.Add(new QuanTriVien
+                        danhMuc.Add(new DanhMucSanPham
                         {
-                            MaQuanTriVien   = (int)reader["MaQuanTriVien"],
-                            Email           = reader["Email"].ToString(),
-                            TenQuanTriVien  = reader["TenQuanTriVien"].ToString(),
-                            NgayTao         = Convert.ToDateTime(reader["NgayTao"]),
-                            NgayCapNhat     = reader["NgayCapNhat"] != DBNull.Value ? Convert.ToDateTime(reader["NgayCapNhat"]) : (DateTime?)null,
+                            MaDanhMuc   = (int)reader["MaDanhMuc"],
+                            TenDanhMuc  = reader["TenDanhMuc"].ToString(),
+                            MoTa        = reader["MoTa"].ToString(),
+                            NgayTao     = Convert.ToDateTime(reader["NgayTao"]),
+                            NgayCapNhat = reader["NgayCapNhat"] != DBNull.Value ? Convert.ToDateTime(reader["NgayCapNhat"]) : (DateTime?)null,
                         });
                     }
                 }
             }
 
-            return users;
+            return danhMuc;
         }
 
-        public bool DeleteUSer(string userId)
+        public bool DeleteDanhMuc(string MaDanhMuc)
         {
             try
             {
@@ -84,10 +84,10 @@ namespace WebApplicationDe10.Services.Admin
                 // Tạo kết nối với cơ sở dữ liệu
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
-                    string query = "DELETE FROM QuanTriVien WHERE MaQuanTriVien = @userId";
+                    string query = "DELETE FROM DanhMucSanPham WHERE MaDanhMuc = @MaDanhMuc";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@userId", int.Parse(userId));
+                    cmd.Parameters.AddWithValue("@MaDanhMuc", int.Parse(MaDanhMuc));
 
                     connection.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -105,7 +105,7 @@ namespace WebApplicationDe10.Services.Admin
             }
         }
 
-        public bool EditUSer(QuanTriVien user)
+        public bool EditDanhMuc(DanhMucSanPham paramsDanhMuc)
         {
             try
             {
@@ -115,19 +115,19 @@ namespace WebApplicationDe10.Services.Admin
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
                     string query = @"
-                        UPDATE QuanTriVien 
+                        UPDATE DanhMucSanPham 
                         SET 
-                            TenQuanTriVien = @TenQuanTriVien, 
-                            Email = @Email,
+                            TenDanhMuc = @TenDanhMuc, 
+                            MoTa = @MoTa,
                             NgayCapNhat = @NgayCapNhat
                         WHERE 
-                            MaQuanTriVien = @MaQuanTriVien
+                            MaDanhMuc = @MaDanhMuc
                     ";
 
                     SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@TenQuanTriVien", user.TenQuanTriVien);
-                    cmd.Parameters.AddWithValue("@Email", user.Email);
-                    cmd.Parameters.AddWithValue("@MaQuanTriVien", user.MaQuanTriVien);
+                    cmd.Parameters.AddWithValue("@TenDanhMuc", paramsDanhMuc.TenDanhMuc);
+                    cmd.Parameters.AddWithValue("@MoTa", paramsDanhMuc.MoTa);
+                    cmd.Parameters.AddWithValue("@MaDanhMuc", paramsDanhMuc.MaDanhMuc);
                     cmd.Parameters.AddWithValue("@NgayCapNhat", DateTime.Now);
 
                     connection.Open();
