@@ -130,6 +130,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\DanhMucController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
+    <Compile Include="Controllers\Admin\SanPhamController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -138,6 +139,7 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\InfoUserLogin.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
+    <Compile Include="Models\SanPhamViewModel.cs" />
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Models\DanhMucSanPham.cs" />
     <Compile Include="Models\HinhAnhSanPham.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\Admin\DanhMucService.cs" />
     <Compile Include="Services\Admin\HomeService.cs" />
+    <Compile Include="Services\Admin\SanPhamService.cs" />
     <Compile Include="Services\Admin\UserService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
@@ -233,9 +236,12 @@
     <Content Include="Views\Admin\User\Create.cshtml" />
     <Content Include="Views\Admin\DanhMuc\Index.cshtml" />
     <Content Include="Views\Admin\DanhMuc\Create.cshtml" />
+    <Content Include="Views\Admin\SanPham\Index.cshtml" />
+    <Content Include="Views\Admin\SanPham\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\ImagesUpload\" />
     <Folder Include="Controllers\Customer\" />
     <Folder Include="Services\Customer\" />
     <Folder Include="Views\Customer\" />

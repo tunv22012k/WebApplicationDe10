@@ -65,15 +65,15 @@
 
             <!-- Nav Item - layout 5 -->
             <li class="nav-item @(ViewBag.ActivePage == "listProduct" ? "active" : "")">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="@Url.Action("Index", "SanPham", new { area = "Admin" })">
                     <i class="fa-solid fa-list"></i>
                     <span>Danh sách sản phẩm</span>
                 </a>
             </li>
 
             <!-- Nav Item - layout 6 -->
-            <li class="nav-item">
-                <a class="nav-link @(ViewBag.ActivePage == "CreateProduct" ? "active" : "")" href="tables.html">
+            <li class="nav-item @(ViewBag.ActivePage == "CreateProduct" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Create", "SanPham", new { area = "Admin" })">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span>Tạo sản phẩm</span>
                 </a>
