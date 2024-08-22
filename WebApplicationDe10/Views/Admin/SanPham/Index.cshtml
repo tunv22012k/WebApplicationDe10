@@ -20,14 +20,255 @@
 </style>
 
 <div class="card-body">
-    List San pham
+    <form action="@Url.Action("Index", "SanPham", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
+        <div class="row g-3">
+            <div class="mb-3 col-md-4">
+                <label for="email" class="form-label">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="TenSanPham" name="TenSanPham" value="@(ViewBag.paramsGet?.TenSanPham)">
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="role" class="form-label">Danh Mục</label>
+                <select class="form-select" name="MaDanhMuc" id="">
+                    <option value=""></option>
+                    @foreach (var item in @ViewBag.listDanhMuc)
+                    {
+                        <option @(item.MaDanhMuc == ViewBag.paramsGet?.MaDanhMuc ? "selected" : "") value="@item.MaDanhMuc">@item.TenDanhMuc</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="role" class="form-label">Thương hiệu</label>
+                <select class="form-select" name="MaThuongHieu" id="">
+                    <option value=""></option>
+                    @foreach (var item in @ViewBag.listThuongHieu)
+                    {
+                        <option @(item.MaThuongHieu == ViewBag.paramsGet?.MaThuongHieu ? "selected" : "") value="@item.MaThuongHieu">@item.TenThuongHieu</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12 d-flex justify-content-end align-items-end">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Thương hiệu</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @ViewBag.listSanPham)
+                {
+                    <tr>
+                        <td>@item.MaSanPham</td>
+                        <td>@item.TenSanPham</td>
+                        <td>@item.TenDanhMuc</td>
+                        <td>@item.TenThuongHieu</td>
+                        <td>@item.GiaSanPham.ToString("N0")</td>
+                        <td>@item.SoLuongTonKho</td>
+                        <td>@item.NgayTao.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                        <td>@item.NgayCapNhat.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                        <td>
+                            <button 
+                                class="btn btn-warning btn-edit"
+                                data-MaSanPham="@item.MaSanPham"
+                                data-TenSanPham="@item.TenSanPham"
+                                data-MaDanhMuc="@item.MaDanhMuc"
+                                data-MaThuongHieu="@item.MaThuongHieu"
+                                data-GiaSanPham="@item.GiaSanPham"
+                                data-SoLuongTonKho="@item.SoLuongTonKho"
+                                data-ThoiGianBaoHanh="@item.ThoiGianBaoHanh"
+                                data-URLHinhAnh="@item.URLHinhAnh"
+                                data-NgayRaMat="@item.NgayRaMat"
+                                data-MoTa="@item.MoTa"
+                                data-ThongSoKyThuatSPs="@Html.Raw(Json.Encode(item.ThongSoKyThuatSPs))"
+                            >
+                                Chỉnh sửa
+                            </button>
+                            <button 
+                                class="btn btn-danger btn-delete"
+                                data-MaSanPham="@item.MaSanPham"
+                                data-TenSanPham="@item.TenSanPham"
+                            >
+                                Xóa
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal delete -->
+    <div class="modal fade"
+         id="modalDelete"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="modalLabelDelete"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelDelete">Xóa sản phẩm</h5>
+                    <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close" data-coreui-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary btn-modal-delete">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal update -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalLabelEdit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelEdit">Chỉnh sửa sản phẩm</h5>
+                    <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdit">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Id:</label>
+                            <input type="text" disabled class="form-control MaSanPham" name="MaSanPham" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Tên sản phẩm:</label>
+                            <input type="text" class="form-control TenSanPham" name="TenSanPham" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Danh Mục:</label>
+                            <select class="form-select" name="MaDanhMuc" id="MaDanhMuc">
+                                @foreach (var item in @ViewBag.listDanhMuc)
+                                {
+                                    <option value="@item.MaDanhMuc">@item.TenDanhMuc</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Thương hiệu:</label>
+                            <select class="form-select" name="MaThuongHieu" id="MaThuongHieu">
+                                @foreach (var item in @ViewBag.listThuongHieu)
+                                {
+                                    <option value="@item.MaThuongHieu">@item.TenThuongHieu</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Giá sản phẩm:</label>
+                            <input type="text" class="form-control GiaSanPham" name="GiaSanPham" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Mô tả:</label>
+                            <input type="text" class="form-control MoTa" name="MoTa" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Số lượng:</label>
+                            <input type="text" class="form-control SoLuongTonKho" name="SoLuongTonKho" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Thời gian bảo hành:</label>
+                            <input type="text" class="form-control ThoiGianBaoHanh" name="ThoiGianBaoHanh" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Ngày ra mắt:</label>
+                            <input type="text" class="form-control NgayRaMat" name="NgayRaMat" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Hình ảnh sản phẩm:</label>
+                            <input type="text" class="form-control URLHinhAnh" name="URLHinhAnh" value="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close" data-coreui-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary btn-modal-edit">Chỉnh sửa</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Thêm các script khác ở đây -->
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+            // info modal
+            var modalDelete = new bootstrap.Modal(document.getElementById("modalDelete"), {});
+            var modalEdit = new bootstrap.Modal(document.getElementById("modalEdit"), {});
+
+            // btn close modal
+            $(document).on("click", ".btn-modal-close", function () {
+                modalDelete.hide();
+                modalEdit.hide();
+            });
+
+            // function delete
+            $(document).on("click", ".btn-delete", function () {
+                let data = $(this).data();
+                $(".modal-title").text("Xóa sản phẩm");
+                $(".modal-body").text("Bạn có chắc chắn muốn xóa " + data.tensanpham);
+                $(".btn-modal-delete").data("MaSanPham", data.masanpham);
+
+                modalDelete.show();
+            });
+
+            // btn delete modal
+            $(document).on("click", ".btn-modal-delete", function () {
+                let data = $(this).data();
+                $.ajax({
+                    url: '@Url.Action("Delete", "SanPham", new { area = "Admin" })',
+                    type: 'POST',
+                    data: {
+                        MaSanPham: data.MaSanPham
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Xóa sản phẩm thành công");
+                            location.reload();
+                        } else {
+                            alert("Xóa sản phẩm thất bại");
+                        }
+                    },
+                    error: function () {
+                        alert("Đã xảy ra lỗi khi xóa sản phẩm");
+                    }
+                });
+            });
+
+            // function edit
+            $(document).on("click", ".btn-edit", function () {
+                let data = $(this).data();
+                $(".btn-modal-edit").data("masanpham", data.masanpham);
+                $(".MaSanPham").val(data.masanpham);
+                $(".TenSanPham").val(data.tensanpham);
+                $(".MaDanhMuc").val(data.madanhmuc);
+                $(".MaThuongHieu").val(data.mathuonghieu);
+                $(".GiaSanPham").val(data.giasanpham);
+                $(".SoLuongTonKho").val(data.soluongtonkho);
+                $(".URLHinhAnh").val(data.urlhinhanh);
+                $(".NgayRaMat").val(data.ngayramat);
+                $(".MoTa").val(data.mota);
+                $(".ThongSoKyThuatSPs").val(data.thongsokythuatsps);
+                $(".ThoiGianBaoHanh").val(data.thoigianbaohanh);
+                modalEdit.show(); 
+            });
         });
     </script>
 }

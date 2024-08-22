@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using WebApplicationDe10.Models;
@@ -17,8 +18,10 @@ namespace WebApplicationDe10.Controllers.Admin
         public ActionResult Index(SanPham sanPham)
         {
             ViewBag.ActivePage = "listProduct";
-            // ViewBag.listDanhMuc = sanPhamService.GetAllSanPham(sanPham);
-            // ViewBag.paramsGet = sanPhamService;
+            ViewBag.listDanhMuc = sanPhamService.GetAllDanhMuc();
+            ViewBag.listThuongHieu = sanPhamService.GetAllThuongHieu();
+            ViewBag.listSanPham = sanPhamService.GetAllSanPham(sanPham);
+            ViewBag.paramsGet = sanPham;
             return View("~/Views/Admin/SanPham/Index.cshtml");
         }
 
@@ -64,14 +67,17 @@ namespace WebApplicationDe10.Controllers.Admin
                     ThongSoKyThuatSPs   = new List<ThongSoKyThuatSP>()
                 };
 
-                // Thêm thông số kỹ thuật
-                foreach (var thongSo in SanPhamViewModel.ThongSoKyThuatSP)
+                if (SanPhamViewModel.ThongSoKyThuatSP != null)
                 {
-                    sanPham.ThongSoKyThuatSPs.Add(new ThongSoKyThuatSP
+                    // Thêm thông số kỹ thuật
+                    foreach (var thongSo in SanPhamViewModel.ThongSoKyThuatSP)
                     {
-                        TenThongSo = thongSo.TenThongSo,
-                        GiaTriThongSo = thongSo.GiaTriThongSo
-                    });
+                        sanPham.ThongSoKyThuatSPs.Add(new ThongSoKyThuatSP
+                        {
+                            TenThongSo = thongSo.TenThongSo,
+                            GiaTriThongSo = thongSo.GiaTriThongSo
+                        });
+                    }
                 }
 
                 bool success = sanPhamService.CreateSanPham(sanPham);
@@ -83,6 +89,20 @@ namespace WebApplicationDe10.Controllers.Admin
             ViewBag.listDanhMuc = sanPhamService.GetAllDanhMuc();
             ViewBag.listThuongHieu = sanPhamService.GetAllThuongHieu();
             return View(SanPhamViewModel);
+        }
+
+        [HttpPost]
+        public JsonResult Delete(string MaSanPham)
+        {
+            try
+            {
+                bool isSuccess = sanPhamService.DeleteSanPham(MaSanPham);
+                return Json(new { success = isSuccess });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Delete err: " + ex.Message);
+            }
         }
     }
 }
