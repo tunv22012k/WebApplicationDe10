@@ -90,9 +90,9 @@
                                 data-SoLuongTonKho="@item.SoLuongTonKho"
                                 data-ThoiGianBaoHanh="@item.ThoiGianBaoHanh"
                                 data-URLHinhAnh="@item.URLHinhAnh"
-                                data-NgayRaMat="@item.NgayRaMat"
+                                data-NgayRaMat="@item.NgayRaMat.ToString("yyyy-MM-dd")"
                                 data-MoTa="@item.MoTa"
-                                data-ThongSoKyThuatSPs="@Html.Raw(Json.Encode(item.ThongSoKyThuatSPs))"
+                                data-ThongSoKyThuatSPs="@(Json.Encode(item.ThongSoKyThuatSPs))"
                             >
                                 Chỉnh sửa
                             </button>
@@ -144,6 +144,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="formEdit">
+                        @Html.AntiForgeryToken()
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Id:</label>
                             <input type="text" disabled class="form-control MaSanPham" name="MaSanPham" value="">
@@ -188,11 +189,17 @@
                         </div>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Ngày ra mắt:</label>
-                            <input type="text" class="form-control NgayRaMat" name="NgayRaMat" value="">
+                            <input type="date" class="form-control NgayRaMat" name="NgayRaMat" value="">
                         </div>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Hình ảnh sản phẩm:</label>
-                            <input type="text" class="form-control URLHinhAnh" name="URLHinhAnh" value="">
+                            <input type="file" class="form-control" name="URLHinhAnh" id="URLHinhAnh" accept="image/*" />
+                        </div>
+                        <div class="mb-3" id="thongSoKyThuatContainer">
+
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" id="addThongSoKyThuat" class="btn btn-dark">Thêm thông số kỹ thuật</button>
                         </div>
                     </form>
                 </div>
@@ -255,19 +262,87 @@
             // function edit
             $(document).on("click", ".btn-edit", function () {
                 let data = $(this).data();
-                $(".btn-modal-edit").data("masanpham", data.masanpham);
+
+                // add data btn
+                $(".btn-modal-edit").data("MaSanPham", data.masanpham);
+                $(".btn-modal-edit").data("URLHinhAnhCu", data.urlhinhanh);
+
+                // remove data
+                $(".MaSanPham").val("");
+                $(".TenSanPham").val("");
+                $(".GiaSanPham").val("");
+                $(".SoLuongTonKho").val("");
+                $(".URLHinhAnh").val("");
+                $(".NgayRaMat").val("");
+                $(".MoTa").val("");
+                $(".ThoiGianBaoHanh").val("");
+
+                // add data
                 $(".MaSanPham").val(data.masanpham);
                 $(".TenSanPham").val(data.tensanpham);
-                $(".MaDanhMuc").val(data.madanhmuc);
-                $(".MaThuongHieu").val(data.mathuonghieu);
+                $(`#MaDanhMuc option[value="${data.madanhmuc}"]`).prop('selected', true);
+                $(`#MaThuongHieu option[value="${data.mathuonghieu}"]`).prop('selected', true);
                 $(".GiaSanPham").val(data.giasanpham);
                 $(".SoLuongTonKho").val(data.soluongtonkho);
-                $(".URLHinhAnh").val(data.urlhinhanh);
                 $(".NgayRaMat").val(data.ngayramat);
                 $(".MoTa").val(data.mota);
-                $(".ThongSoKyThuatSPs").val(data.thongsokythuatsps);
                 $(".ThoiGianBaoHanh").val(data.thoigianbaohanh);
-                modalEdit.show(); 
+
+                // delete thong so ki thuat
+                $(".form_add_thong_so_ky_thuat").remove();
+
+                // add thong so ki thuat
+                if (data.thongsokythuatsps && data.thongsokythuatsps.length > 0) {
+                    for (let i = 0; i < data.thongsokythuatsps.length; i++) {
+                        let el = data.thongsokythuatsps[i];
+
+                        var template = `
+                            <div class="form-group form_add_thong_so_ky_thuat">
+                                <label for="TenThongSo">Tên thông số ${i + 1}</label>
+                                <input type="text" name="ThongSoKyThuatSP[${i}].TenThongSo" class="form-control" value="${el.TenThongSo}" />
+                                <label for="GiaTriThongSo">Giá trị thông số ${i + 1}</label>
+                                <input type="text" name="ThongSoKyThuatSP[${i}].GiaTriThongSo" class="form-control" value="${el.GiaTriThongSo}" />
+                            </div>
+                        `;
+                        $('#thongSoKyThuatContainer').append(template);
+                    }
+                }
+
+                modalEdit.show();
+            });
+
+            $('#addThongSoKyThuat').click(function () {
+                let index = $(".form_add_thong_so_ky_thuat").length;
+                var template = `
+                    <div class="form-group form_add_thong_so_ky_thuat">
+                        <label for="TenThongSo">Tên thông số ${index + 1}</label>
+                        <input type="text" name="ThongSoKyThuatSP[${index}].TenThongSo" class="form-control" />
+                        <label for="GiaTriThongSo">Giá trị thông số ${index + 1}</label>
+                        <input type="text" name="ThongSoKyThuatSP[${index}].GiaTriThongSo" class="form-control" />
+                    </div>
+                `;
+                $('#thongSoKyThuatContainer').append(template);
+            });
+
+            // btn edit modal
+            $(document).on("click", ".btn-modal-edit", function () {
+                let data = $(this).data();
+                $.ajax({
+                    url: '@Url.Action("Edit", "SanPham", new { area = "Admin" })',
+                    type: 'POST',
+                    data: $("#formEdit").serialize() + `&MaSanPham=${data.MaSanPham}&URLHinhAnhCu=${data.URLHinhAnhCu}`,
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Chỉnh sửa sản phẩm thành công");
+                            location.reload();
+                        } else {
+                            alert("Chỉnh sửa sản phẩm thất bại");
+                        }
+                    },
+                    error: function () {
+                        alert("Đã xảy ra lỗi khi chỉnh sửa sản phẩm");
+                    }
+                });
             });
         });
     </script>

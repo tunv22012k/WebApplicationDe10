@@ -128,6 +128,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\ThuongHieuController.cs" />
     <Compile Include="Controllers\Admin\DanhMucController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\SanPhamController.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\Admin\ThuongHieuService.cs" />
     <Compile Include="Services\Admin\DanhMucService.cs" />
     <Compile Include="Services\Admin\HomeService.cs" />
     <Compile Include="Services\Admin\SanPhamService.cs" />
@@ -238,6 +240,8 @@
     <Content Include="Views\Admin\DanhMuc\Create.cshtml" />
     <Content Include="Views\Admin\SanPham\Index.cshtml" />
     <Content Include="Views\Admin\SanPham\Create.cshtml" />
+    <Content Include="Views\Admin\ThuongHieu\Create.cshtml" />
+    <Content Include="Views\Admin\ThuongHieu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,15 +20,15 @@
 </style>
 
 <div class="card-body">
-    <form action="@Url.Action("Index", "DanhMuc", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
+    <form action="@Url.Action("Index", "ThuongHieu", new { area = "Admin" })" method="GET" class="mb-5 custom-form-search">
         <div class="row g-3">
             <div class="mb-3 col-md-5">
-                <label for="email" class="form-label">Tên danh mục</label>
-                <input type="text" class="form-control" id="TenDanhMuc" name="TenDanhMuc" value="@(ViewBag.paramsGet?.TenDanhMuc)">
+                <label for="email" class="form-label">Tên thương hiệu</label>
+                <input type="text" class="form-control" id="TenThuongHieu" name="TenThuongHieu" value="@(ViewBag.paramsGet?.TenThuongHieu)">
             </div>
             <div class="mb-3 col-md-5">
-                <label for="role" class="form-label">Mô tả</label>
-                <input type="text" class="form-control" name="MoTa" id="MoTa" value="@(ViewBag.paramsGet?.MoTa)">
+                <label for="role" class="form-label">Quốc gia</label>
+                <input type="text" class="form-control" name="QuocGia" id="MoTa" value="@(ViewBag.paramsGet?.QuocGia)">
             </div>
         </div>
         <div class="col-md-12 d-flex justify-content-end align-items-end">
@@ -41,33 +41,33 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Tên danh mục</th>
-                    <th>Mô tả</th>
+                    <th>Tên thương hiệu</th>
+                    <th>Quốc gia</th>
                     <th>Ngày tạo</th>
                     <th>Ngày cập nhật</th>
                     <th>Options</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in @ViewBag.listDanhMuc)
+                @foreach (var item in @ViewBag.listThuongHieu)
                 {
                     <tr>
-                        <td>@item.MaDanhMuc</td>
-                        <td>@item.TenDanhMuc</td>
-                        <td>@item.MoTa</td>
+                        <td>@item.MaThuongHieu</td>
+                        <td>@item.TenThuongHieu</td>
+                        <td>@item.QuocGia</td>
                         <td>@item.NgayTao</td>
                         <td>@item.NgayCapNhat</td>
                         <td>
                             <button class="btn btn-warning btn-edit"
-                                    data-MaDanhMuc="@item.MaDanhMuc"
-                                    data-TenDanhMuc="@item.TenDanhMuc"
-                                    data-MoTa="@item.MoTa"
+                                    data-MaThuongHieu="@item.MaThuongHieu"
+                                    data-TenThuongHieu="@item.TenThuongHieu"
+                                    data-QuocGia="@item.QuocGia"
                             >
                                 Chỉnh sửa
                             </button>
                             <button class="btn btn-danger btn-delete"
-                                    data-MaDanhMuc="@item.MaDanhMuc"
-                                    data-TenDanhMuc="@item.TenDanhMuc"
+                                    data-MaThuongHieu="@item.MaThuongHieu"
+                                    data-TenThuongHieu="@item.TenThuongHieu"
                             >
                                 Xóa
                             </button>
@@ -88,7 +88,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabelDelete">Xóa danh mục</h5>
+                    <h5 class="modal-title" id="modalLabelDelete">Xóa thương hiệu</h5>
                     <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -107,7 +107,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabelEdit">Chỉnh sửa danh mục</h5>
+                    <h5 class="modal-title" id="modalLabelEdit">Chỉnh sửa thương hiệu</h5>
                     <button type="button" class="btn-close btn-modal-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -115,15 +115,15 @@
                         @Html.AntiForgeryToken()
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Id:</label>
-                            <input type="text" disabled class="form-control MaDanhMuc" name="MaDanhMuc" value="">
+                            <input type="text" disabled class="form-control MaThuongHieu" name="MaThuongHieu" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Tên danh mục:</label>
-                            <input type="text" class="form-control TenDanhMuc" name="TenDanhMuc" value="">
+                            <label for="recipient-name" class="col-form-label">Tên thương hiệu:</label>
+                            <input type="text" class="form-control TenThuongHieu" name="TenThuongHieu" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Mô tả:</label>
-                            <input type="text" class="form-control MoTa" name="MoTa" value="">
+                            <label for="recipient-name" class="col-form-label">Quốc gia:</label>
+                            <input type="text" class="form-control QuocGia" name="QuocGia" value="">
                         </div>
                     </form>
                 </div>
@@ -153,22 +153,23 @@
             // btn delete modal
             $(document).on("click", ".btn-modal-delete", function () {
                 let data = $(this).data();
+                console.log(data);
                 $.ajax({
-                    url: '@Url.Action("Delete", "DanhMuc", new { area = "Admin" })',
+                    url: '@Url.Action("Delete", "ThuongHieu", new { area = "Admin" })',
                     type: 'POST',
                     data: {
-                        MaDanhMuc: data.MaDanhMuc
+                        MaThuongHieu: data.MaThuongHieu
                     },
                     success: function (response) {
                         if (response.success) {
-                            alert("Xóa danh mục thành công");
+                            alert("Xóa thương hiệu thành công");
                             location.reload();
                         } else {
-                            alert("Xóa danh mục thất bại");
+                            alert("Xóa thương hiệu thất bại");
                         }
                     },
                     error: function () {
-                        alert("Đã xảy ra lỗi khi xóa danh mục");
+                        alert("Đã xảy ra lỗi khi xóa thương hiệu");
                     }
                 });
             });
@@ -177,19 +178,19 @@
             $(document).on("click", ".btn-modal-edit", function () {
                 let data = $(this).data();
                 $.ajax({
-                    url: '@Url.Action("Edit", "DanhMuc", new { area = "Admin" })',
+                    url: '@Url.Action("Edit", "ThuongHieu", new { area = "Admin" })',
                     type: 'POST',
-                    data: $("#formEdit").serialize() + '&MaDanhMuc=' + data.MaDanhMuc,
+                    data: $("#formEdit").serialize() + '&MaThuongHieu=' + data.MaThuongHieu,
                     success: function (response) {
                         if (response.success) {
-                            alert("Chỉnh sửa danh mục thành công");
+                            alert("Chỉnh sửa thương hiệu thành công");
                             location.reload();
                         } else {
-                            alert("Chỉnh sửa danh mục thất bại");
+                            alert("Chỉnh sửa thương hiệu thất bại");
                         }
                     },
                     error: function () {
-                        alert("Đã xảy ra lỗi khi chỉnh sửa danh mục");
+                        alert("Đã xảy ra lỗi khi chỉnh sửa thương hiệu");
                     }
                 });
             });
@@ -197,19 +198,19 @@
             // function edit user
             $(document).on("click", ".btn-edit", function () {
                 let data = $(this).data();
-                $(".btn-modal-edit").data("MaDanhMuc", data.madanhmuc);
-                $(".MaDanhMuc").val(data.madanhmuc);
-                $(".TenDanhMuc").val(data.tendanhmuc);
-                $(".MoTa").val(data.mota);
+                $(".btn-modal-edit").data("MaThuongHieu", data.mathuonghieu);
+                $(".MaThuongHieu").val(data.mathuonghieu);
+                $(".TenThuongHieu").val(data.tenthuonghieu);
+                $(".QuocGia").val(data.quocgia);
                 modalEdit.show();
             });
 
             // function delete user
             $(document).on("click", ".btn-delete", function () {
                 let data = $(this).data();
-                $(".modal-title").text("Xóa danh mục");
-                $(".modal-body").text("Bạn có chắc chắn muốn xóa " + data.tendanhmuc);
-                $(".btn-modal-delete").data("MaDanhMuc", data.madanhmuc);
+                $(".modal-title").text("Xóa thương hiệu");
+                $(".modal-body").text("Bạn có chắc chắn muốn xóa " + data.tenthuonghieu);
+                $(".btn-modal-delete").data("MaThuongHieu", data.mathuonghieu);
 
                 modalDelete.show();
             });
@@ -217,9 +218,12 @@
             // validate
             $("#formEdit").validate({
                 rules: {
-                    TenDanhMuc: {
+                    TenThuongHieu: {
                         required: true,
                         maxlength: 20
+                    },
+                    QuocGia: {
+                        required: true
                     }
                 }
             });

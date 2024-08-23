@@ -13,6 +13,7 @@ namespace WebApplicationDe10.Models
         public decimal GiaSanPham { get; set; }
         public string MoTa { get; set; }
         public HttpPostedFileBase URLHinhAnh { get; set; }
+        public string URLHinhAnhCu { get; set; }
         public int SoLuongTonKho { get; set; }
         public int ThoiGianBaoHanh { get; set; }
         public DateTime NgayRaMat { get; set; }

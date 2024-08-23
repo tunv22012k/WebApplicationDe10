@@ -63,6 +63,22 @@
                 </a>
             </li>
 
+            <!-- Nav Item - layout 8 -->
+            <li class="nav-item @(ViewBag.ActivePage == "ListThuongHieu" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Index", "ThuongHieu", new { area = "Admin" })">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Thương hiệu</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - layout 9 -->
+            <li class="nav-item @(ViewBag.ActivePage == "CreateThuongHieu" ? "active" : "")">
+                <a class="nav-link" href="@Url.Action("Create", "ThuongHieu", new { area = "Admin" })">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Tạo thương hiệu</span>
+                </a>
+            </li>
+
             <!-- Nav Item - layout 5 -->
             <li class="nav-item @(ViewBag.ActivePage == "listProduct" ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Index", "SanPham", new { area = "Admin" })">

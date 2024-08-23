@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Home Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .error {
+        font-size: 1rem;
+        width: 100%;
+    }
+</style>
+
+<div class="card-body">
+    <form method="POST" action="/Admin/ThuongHieu/Create" class="row g-3">
+        @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            <label class="form-label">Tên Thương hiệu</label>
+            <input type="text" name="TenThuongHieu" class="form-control" placeholder="Tên thương hiệu">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Quốc gia</label>
+            <input type="text" name="QuocGia" class="form-control" placeholder="Quốc gia">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Tạo thương hiệu</button>
+        </div>
+    </form>
+</div>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").validate({
+                rules: {
+                    TenThuongHieu: {
+                        required: true,
+                        maxlength: 20
+                    },
+                    QuocGia: {
+                        required: true,
+                        maxlength: 20
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -76,12 +76,14 @@
         $(document).ready(function () {
             $('#addThongSoKyThuat').click(function () {
                 let index = $(".form_add_thong_so_ky_thuat").length;
-                var template = '<div class="form-group form_add_thong_so_ky_thuat">' +
-                               '<label for="TenThongSo">Tên thông số</label>' +
-                               '<input type="text" name="ThongSoKyThuatSP[' + index + '].TenThongSo" class="form-control" />' +
-                               '<label for="GiaTriThongSo">Giá trị thông số</label>' +
-                               '<input type="text" name="ThongSoKyThuatSP[' + index + '].GiaTriThongSo" class="form-control" />' +
-                               '</div>';
+                var template = `
+                    <div class="form-group form_add_thong_so_ky_thuat">
+                        <label for="TenThongSo">Tên thông số ${index + 1}</label>
+                        <input type="text" name="ThongSoKyThuatSP[${index}].TenThongSo" class="form-control" />
+                        <label for="GiaTriThongSo">Giá trị thông số ${index + 1}</label>
+                        <input type="text" name="ThongSoKyThuatSP[${index}].GiaTriThongSo" class="form-control" />
+                    </div>
+                `;
                 $('#thongSoKyThuatContainer').append(template);
             });
 

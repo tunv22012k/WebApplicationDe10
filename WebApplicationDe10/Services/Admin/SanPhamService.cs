@@ -307,6 +307,107 @@ namespace WebApplicationDe10.Services.Admin
             }
         }
 
+        public bool EditSanPham(SanPham sanPham)
+        {
+            // Tạo kết nối với cơ sở dữ liệu và lưu thông tin người dùng
+            using (var connection = new SqlConnection(DatabaseHelper.connectionString))
+            {
+                bool isSuccess = false;
+                connection.Open();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+                    // delete ThongSoKyThuatSP
+                    string query2 = "DELETE FROM ThongSoKyThuatSP WHERE MaSanPham = @MaSanPham";
+
+                    SqlCommand cmd2 = new SqlCommand(query2, connection, transaction);
+                    cmd2.Parameters.AddWithValue("@MaSanPham", sanPham.MaSanPham);
+
+                    cmd2.ExecuteNonQuery();
+
+                    // update san pham
+                    string query = @"
+                        UPDATE SanPham 
+                        SET
+                            TenSanPham      = @TenSanPham,
+                            MaDanhMuc       = @MaDanhMuc,
+                            MaThuongHieu    = @MaThuongHieu,
+                            GiaSanPham      = @GiaSanPham,
+                            MoTa            = @MoTa,
+                            URLHinhAnh      = @URLHinhAnh,
+                            ThoiGianBaoHanh = @ThoiGianBaoHanh,
+                            NgayRaMat       = @NgayRaMat,
+                            NgayTao         = @NgayTao,
+                            NgayCapNhat     = @NgayCapNhat
+                        WHERE
+                            MaSanPham       = @MaSanPham
+                            
+                    ";
+
+                    SqlCommand cmd = new SqlCommand(query, connection, transaction);
+                    cmd.Parameters.AddWithValue("@MaSanPham", sanPham.MaSanPham);
+                    cmd.Parameters.AddWithValue("@TenSanPham", sanPham.TenSanPham);
+                    cmd.Parameters.AddWithValue("@MaDanhMuc", sanPham.MaDanhMuc);
+                    cmd.Parameters.AddWithValue("@MaThuongHieu", sanPham.MaThuongHieu);
+                    cmd.Parameters.AddWithValue("@GiaSanPham", sanPham.GiaSanPham);
+                    cmd.Parameters.AddWithValue("@MoTa", sanPham.MoTa);
+                    cmd.Parameters.AddWithValue("@URLHinhAnh", string.IsNullOrEmpty(sanPham.URLHinhAnh) ? (object)DBNull.Value : sanPham.URLHinhAnh);
+                    cmd.Parameters.AddWithValue("@SoLuongTonKho", sanPham.SoLuongTonKho);
+                    cmd.Parameters.AddWithValue("@ThoiGianBaoHanh", sanPham.ThoiGianBaoHanh);
+                    cmd.Parameters.AddWithValue("@NgayRaMat", sanPham.NgayRaMat);
+                    cmd.Parameters.AddWithValue("@NgayTao", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@NgayCapNhat", DateTime.Now);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    // tạo thông số
+                    foreach (var thongSo in sanPham.ThongSoKyThuatSPs)
+                    {
+                        string query3 = @"
+                            INSERT INTO ThongSoKyThuatSP 
+                            (
+                                MaSanPham,
+                                TenThongSo,
+                                GiaTriThongSo
+                            ) 
+                            VALUES 
+                            (
+                                @MaSanPham,
+                                @TenThongSo,
+                                @GiaTriThongSo
+                            )
+                        ";
+
+                        SqlCommand cmd3 = new SqlCommand(query3, connection, transaction);
+                        cmd3.Parameters.AddWithValue("@MaSanPham", sanPham.MaSanPham);
+                        cmd3.Parameters.AddWithValue("@TenThongSo", thongSo.TenThongSo);
+                        cmd3.Parameters.AddWithValue("@GiaTriThongSo", thongSo.GiaTriThongSo);
+
+                        cmd3.ExecuteNonQuery();
+                    }
+
+                    // Nếu số hàng bị ảnh hưởng lớn hơn 0, quá trình chèn đã thành công
+                    isSuccess = rowsAffected > 0;
+
+                    transaction.Commit();
+                    return isSuccess;
+                }
+                catch (Exception ex)
+                {
+                    if (transaction != null)
+                    {
+                        transaction.Rollback(); // Hoàn tác các thay đổi nếu có lỗi
+                    }
+
+                    throw new Exception("Cannot open database connection: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close(); // Đảm bảo kết nối được đóng
+                }
+            }
+        }
+
         public bool DeleteSanPham(string MaSanPham)
         {
             // Tạo kết nối với cơ sở dữ liệu và lưu thông tin người dùng
