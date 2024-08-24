@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
 using WebApplicationDe10.Services.Admin;
 
 namespace WebApplicationDe10.Controllers.Admin
 {
+    [Authorize(Roles = Constants.RoleAdmin)]
     public class SanPhamController: Controller
     {
         private readonly SanPhamService sanPhamService;

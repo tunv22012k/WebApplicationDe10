@@ -30,7 +30,7 @@
             let parseDataStorageCart = JSON.parse(dataStorageCart);
 
             //  filter
-            const filterData = parseDataStorageCart.filter(v => v.id == data.id);
+            const filterData = parseDataStorageCart.filter(v => v.masanpham == data.masanpham);
 
             if (filterData.length == 0) {
                 // push data

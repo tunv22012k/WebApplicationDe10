@@ -16,8 +16,10 @@ namespace WebApplicationDe10.Controllers
         public ActionResult Index()
         {
             ViewBag.ActivePage = "IndexUser";
-            var products = userService.GetAllUsers();
-            return View(products);
+            var list = userService.GetListDanhMucAndSanPham();
+            ViewBag.ProductNew = list.ListSanPhamNew;
+            ViewBag.ListDanhMuc = list.ListDanhMucSanPham;
+            return View();
         }
 
         public ActionResult About()

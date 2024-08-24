@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Web.Mvc;
+using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
 using WebApplicationDe10.Services.Admin;
 
 namespace WebApplicationDe10.Controllers.Admin
 {
+    [Authorize(Roles = Constants.RoleAdmin)]
     public class ThuongHieuController : Controller
     {
         private readonly ThuongHieuService thuongHieuService;

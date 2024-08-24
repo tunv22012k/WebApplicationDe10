@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Web.ApplicationServices;
 using System.Web.Mvc;
+using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
-using WebApplicationDe10.Services;
 using WebApplicationDe10.Services.Admin;
 
 namespace WebApplicationDe10.Controllers.Admin
 {
+    [Authorize(Roles = Constants.RoleAdmin)]
     public class DanhMucController: Controller
     {
         private readonly DanhMucService danhMucService;

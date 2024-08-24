@@ -132,6 +132,19 @@ namespace WebApplicationDe10.Services.Admin
                 // Tạo kết nối với cơ sở dữ liệu
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
+                    // Kiểm tra xem có sản phẩm nào sử dụng MaThuongHieu này không
+                    string checkQuery = @"SELECT COUNT(*) FROM SanPham WHERE MaThuongHieu = @MaThuongHieu";
+                    SqlCommand checkCmd = new SqlCommand(checkQuery, connection);
+                    checkCmd.Parameters.AddWithValue("@MaThuongHieu", MaThuongHieu);
+                    connection.Open();
+                    int count = (int)checkCmd.ExecuteScalar();
+
+                    if (count > 0)
+                    {
+                        // Nếu có sản phẩm đang sử dụng, không xóa được
+                        return false;
+                    }
+
                     string query = "DELETE FROM ThuongHieu WHERE MaThuongHieu = @MaThuongHieu";
 
                     SqlCommand cmd = new SqlCommand(query, connection);

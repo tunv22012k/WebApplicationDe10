@@ -132,6 +132,19 @@ namespace WebApplicationDe10.Services.Admin
                 // Tạo kết nối với cơ sở dữ liệu
                 using (var connection = new SqlConnection(DatabaseHelper.connectionString))
                 {
+                    // Kiểm tra xem có sản phẩm nào sử dụng MaDanhMuc này không
+                    string checkQuery = @"SELECT COUNT(*) FROM SanPham WHERE MaDanhMuc = @MaDanhMuc";
+                    SqlCommand checkCmd = new SqlCommand(checkQuery, connection);
+                    checkCmd.Parameters.AddWithValue("@MaDanhMuc", MaDanhMuc);
+                    connection.Open();
+                    int count = (int)checkCmd.ExecuteScalar();
+
+                    if (count > 0)
+                    {
+                        // Nếu có sản phẩm đang sử dụng, không xóa được
+                        return false;
+                    }
+
                     string query = "DELETE FROM DanhMucSanPham WHERE MaDanhMuc = @MaDanhMuc";
 
                     SqlCommand cmd = new SqlCommand(query, connection);

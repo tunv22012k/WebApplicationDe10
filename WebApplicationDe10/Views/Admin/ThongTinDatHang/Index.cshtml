@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var userLogin = WebApplicationDe10.Helpers.InfoUserLogin.GetLoggedInUserInfo();
+}
+
+<style>
+    .custom-form-search {
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .error {
+        font-size: 1rem;
+        width: 100%;
+    }
+    #dataTable_wrapper {
+        width: 98%;
+    }
+</style>
+
+<div class="card-body">
+    form danh sach thong tin dat hang
+</div>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+        });
+    </script>
+}

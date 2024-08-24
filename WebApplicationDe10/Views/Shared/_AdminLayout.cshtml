@@ -66,7 +66,7 @@
             <!-- Nav Item - layout 8 -->
             <li class="nav-item @(ViewBag.ActivePage == "ListThuongHieu" ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Index", "ThuongHieu", new { area = "Admin" })">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-trademark"></i>
                     <span>Thương hiệu</span>
                 </a>
             </li>
@@ -74,7 +74,7 @@
             <!-- Nav Item - layout 9 -->
             <li class="nav-item @(ViewBag.ActivePage == "CreateThuongHieu" ? "active" : "")">
                 <a class="nav-link" href="@Url.Action("Create", "ThuongHieu", new { area = "Admin" })">
-                    <i class="fa-solid fa-layer-group"></i>
+                    <i class="fa-solid fa-registered"></i>
                     <span>Tạo thương hiệu</span>
                 </a>
             </li>
@@ -97,7 +97,7 @@
 
             <!-- Nav Item - layout 7 -->
             <li class="nav-item @(ViewBag.ActivePage == "InfoCart" ? "active" : "")">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="@Url.Action("Index", "ThongTinDatHang", new { area = "Admin" })">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span>Thông tin mua hàng</span>
                 </a>
