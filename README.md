@@ -19,8 +19,8 @@ VALUES
 
 INSERT INTO DanhMucSanPham (TenDanhMuc, MoTa, NgayTao, NgayCapNhat)
 VALUES 
-('Điện thoại', 'Các sản phẩm điện thoại di động thông minh.', GETDATE(), GETDATE()),
-('Máy tính bảng', 'Các loại máy tính bảng và phụ kiện liên quan.', GETDATE(), GETDATE()),
-('Laptop', 'Các loại laptop từ các thương hiệu nổi tiếng.', GETDATE(), GETDATE()),
-('Phụ kiện điện thoại', 'Phụ kiện cho điện thoại như ốp lưng, sạc cáp.', GETDATE(), GETDATE()),
-('Thiết bị gia dụng', 'Các thiết bị gia dụng thông minh như robot hút bụi, máy giặt.', GETDATE(), GETDATE());
+(N'Điện thoại', N'Các sản phẩm điện thoại di động thông minh.', GETDATE(), GETDATE()),
+(N'Máy tính bảng', N'Các loại máy tính bảng và phụ kiện liên quan.', GETDATE(), GETDATE()),
+(N'Laptop', N'Các loại laptop từ các thương hiệu nổi tiếng.', GETDATE(), GETDATE()),
+(N'Phụ kiện điện thoại', N'Phụ kiện cho điện thoại như ốp lưng, sạc cáp.', GETDATE(), GETDATE()),
+(N'Thiết bị gia dụng', N'Các thiết bị gia dụng thông minh như robot hút bụi, máy giặt.', GETDATE(), GETDATE());
