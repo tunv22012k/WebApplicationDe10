@@ -134,6 +134,7 @@
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\SanPhamController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\GioiThieuController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -256,6 +257,7 @@
     <Content Include="Views\Admin\ThongTinDatHang\Index.cshtml" />
     <Content Include="Views\SanPham\ChiTiet.cshtml" />
     <Content Include="Views\GioHang\Index.cshtml" />
+    <Content Include="Views\GioiThieu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

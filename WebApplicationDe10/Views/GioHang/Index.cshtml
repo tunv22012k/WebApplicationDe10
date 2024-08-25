@@ -230,6 +230,10 @@
 
                     // set data to cart
                     sessionStorage.setItem("dataStorageCart", JSON.stringify(filterData));
+
+                    $(".total_cart_product").text(parseDataStorageCart.length - 1);
+                } else {
+                    $(".total_cart_product").text("0");
                 }
             });
 

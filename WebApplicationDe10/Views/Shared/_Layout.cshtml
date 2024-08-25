@@ -19,7 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link @(ViewBag.ActivePage == "IndexUser" ? "active" : "")" aria-current="page" href="@Url.RouteUrl("Default", new { controller = "Home", action = "Index" })">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link @(ViewBag.ActivePage == "GioiThieu" ? "active" : "")" href="@Url.RouteUrl("Default", new { controller = "GioiThieu", action = "Index" })">Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Tin tức</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="javascript:void(0)" role="button" aria-expanded="false">Danh mục</a>
