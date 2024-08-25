@@ -1,0 +1,106 @@
+﻿/* btn-oder */
+.btn-oder {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+    gap: 20px;
+}
+/* info-order */
+.info-order {
+    display: flex;
+    margin-top: 50px;
+    flex-direction: row;
+}
+
+.card-item {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-item-title {
+    margin-top: 15px;
+    display: flex;
+    height: 25px;
+    background-color: #dfdbd9;
+    border-radius: 4px;
+}
+
+.card-item-info {
+    display: flex;
+    height: 116px;
+    border-radius: 4px;
+    border-bottom: 1px solid #e2dddc;
+}
+
+.card-size {
+    width: 89%;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+}
+
+.card-quantity {
+    display: flex;
+    height: 30px;
+    gap: 5px;
+}
+
+    .card-quantity button {
+        border-radius: 2px;
+        background: #d6d5d4;
+        border: none;
+    }
+
+.btn-danger {
+    height: 40px;
+}
+
+.order {
+    padding: 4px;
+    width: 25%;
+}
+
+.info {
+    display: flex;
+    gap: 50px;
+    justify-content: space-between;
+    height: 50px;
+    margin-top: 10px;
+    background: whitesmoke;
+    border-radius: 6px;
+}
+
+.title-order {
+    border-bottom: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.info-text {
+    padding: 10px 3px 0px 3px;
+    display: flex;
+    justify-content: center;
+}
+
+.button-order {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+    .button-order button {
+        border: none;
+        border-radius: 4px;
+        height: 35px;
+    }
+
+.button-order-orange {
+    background-color: #fb6e2e;
+}
+
+.button-order-blue {
+    background-color: #4a90e2;
+}

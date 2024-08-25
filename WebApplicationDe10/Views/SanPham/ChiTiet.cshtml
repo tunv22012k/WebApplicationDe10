@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+}
+
+<link rel="stylesheet" href="~/Content/detailsProduct.css" />
+
+<style>
+    .set_width {
+        width: 500px;
+    }
+</style>
+
+<main>
+    <div class="container">
+        <!-- Tieu de dien thoai -->
+        <div class="title-phone">
+            <h3>
+                <small class="text-muted"> @ViewBag.Product.TenSanPham </small>
+            </h3>
+        </div>
+        <!-- Hinh anh dien thoai -->
+        <div class="phone">
+            <div class="img-phone">
+                <div id="carouselExampleDark"
+                     class="carousel carousel-dark slide"
+                     data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/305658/iphone-15-pro-max-black-1-1.jpg"
+                                 class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/305658/iphone-15-pro-max-black-2-1.jpg"
+                                 class="d-block w-100"
+                                 alt="..." />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/305658/iphone-15-pro-max-black-3-1.jpg"
+                                 class="d-block w-100"
+                                 alt="..." />
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#carouselExampleDark"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"
+                              aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#carouselExampleDark"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon"
+                              aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Thong tin mua hang -->
+            <div class="detail-phone">
+                <div class="price"><span class="text-muted"> @ViewBag.Product.GiaSanPham.ToString("#,##0").Replace(",", ".") ₫</span></div>
+                <div class="img-detail-phone">
+                    <img src="https://cdn.tgdd.vn/2024/06/banner/trang-chi-tiet-desk-920x230-13.png"
+                         alt="" />
+                </div>
+                <div class="promotion-all">
+                    <div class="promotion">
+                        <span class="promotion-title">Khuyến mãi</span>
+                        <span class="promotion-title-des text-muted">Giá và khuyến mãi dự kiến áp dụng đến 23:00 | 31/08</span>
+                    </div>
+
+                    <div class="promotion-des">
+                        <div class="promotion-des-1">
+                            <div class="text-muted-1">1</div>
+                            <span class="text-muted">
+                                Ốp lưng chính hãng Apple giảm thêm 300K khi mua kèm iPhone
+                                (áp dụng tuỳ model)
+                            </span>
+                        </div>
+
+                        <div class="promotion-des">
+                            <div class="promotion-des-1">
+                                <div class="text-muted-1">2</div>
+                                <span class="text-muted">
+                                    Thu cũ Đổi mới: Giảm đến 2 triệu (Tuỳ model máy cũ, Không
+                                    kèm thanh toán qua cổng online)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-buy">
+                    <button class="btn-buy-now">Mua Ngay</button>
+                </div>
+            </div>
+        </div>
+        <!-- Phu kien va cau hinh dien thoai-->
+        <div class="phone-info-configuration">
+            <div class="phone-information">
+                <img src="@ViewBag.Product.URLHinhAnh" alt="" />
+                <span>@ViewBag.Product.MoTa</span>
+            </div>
+
+            <div class="phone-configuration">
+                <div class="set_width">
+                    <h4>Cấu hình @ViewBag.Product.TenDanhMuc @ViewBag.Product.TenSanPham</h4>
+                </div>
+                @{
+                    int index = 0;
+                }
+                @foreach (var item in @ViewBag.ListThongSoKiThuat)
+                {
+                    // Kiểm tra nếu index là 0 hoặc số chẵn
+                    string additionalClass = (index == 0 || index % 2 == 0) ? "phone-configuration-gray" : "";
+
+                    <div class="phone-configuration-info @additionalClass">
+                        <div><span>@item.TenThongSo:</span></div>
+                        <div class="phone-configuration-title">
+                            <span>@item.GiaTriThongSo</span>
+                        </div>
+                    </div>
+
+                    index++;
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Thêm các script khác ở đây -->
+    @section scripts {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(document).on('click', '.btn-buy-now', function (e) {
+                    let data = $(this).data();
+
+                    console.log(data);
+                });
+            });
+        </script>
+    }
+</main>

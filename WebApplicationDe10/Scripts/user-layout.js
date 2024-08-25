@@ -58,5 +58,10 @@
             $(".total_cart_product").text("0");
         }
     }
+
+    $(document).on('click', '.btn_show_page_cart', function (e) {
+        // Navigate to the constructed URL
+        location.href = "/GioHang/Index"
+    });
     
 })(jQuery); // End of use strict

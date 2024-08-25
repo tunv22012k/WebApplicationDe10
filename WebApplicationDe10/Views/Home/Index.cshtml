@@ -5,7 +5,7 @@
 <style>
     .card-img-top {
         width: 100%;
-        height: 200px; /* Hoặc bất kỳ giá trị nào phù hợp */
+        height: 200px;
         object-fit: contain;
     }
     .cursor_pointer {
@@ -73,7 +73,7 @@
                                             <!-- Product name-->
                                             <h5 class="fw-bolder">@item.TenSanPham</h5>
                                             <!-- Product price-->
-                                            @item.GiaSanPham
+                                            @item.GiaSanPham.ToString("#,##0").Replace(",", ".") ₫
                                         </div>
                                     </div>
                                     <!-- Product actions-->
@@ -129,7 +129,7 @@
                                                 <!-- Product name-->
                                                 <h5 class="fw-bolder">@item2.TenSanPham</h5>
                                                 <!-- Product price-->
-                                                @item2.GiaSanPham
+                                                @item2.GiaSanPham.ToString("#,##0").Replace(",", ".") ₫
                                             </div>
                                         </div>
                                         <!-- Product actions-->
@@ -169,7 +169,11 @@
                 $(document).on('click', '.seen_detail', function (e) {
                     let data = $(this).data();
 
-                    console.log(data);
+                    // Generate the base URL with Razor
+                    let url = '@Url.RouteUrl("Default", new { controller = "SanPham", action = "ChiTiet" })';
+
+                    // Navigate to the constructed URL
+                    location.href = url += "?MaSanPham=" + data.masanpham;
                 });
 
                 $(document).on('click', '.seen_all', function (e) {

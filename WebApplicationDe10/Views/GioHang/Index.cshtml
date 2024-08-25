@@ -1,0 +1,258 @@
+﻿@{
+    ViewBag.Title = "Thông tin giỏ hàng";
+}
+
+<link rel="stylesheet" href="~/Content/cart.css" />
+
+<style>
+    .div_content {
+        min-height: 600px;
+    }
+    .card-img img {
+        max-width: 100px;
+        height: auto;
+        object-fit: contain;
+        transform-origin: center; /* Giữ điểm gốc để thu nhỏ ở giữa */
+    }
+    .center_text {
+        vertical-align: middle; /* Căn giữa theo chiều dọc */
+        text-align: center; /* Căn giữa theo chiều ngang (nếu cần) */
+        align-items: center;
+    }
+    .card-item-info {
+        height: auto
+    }
+    .card-size {
+        height: auto;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container div_content">
+    <div class="info-order">
+        <div class="card-item">
+            <div class="card-item-title">
+                <div class="card-img card-size center_text">
+                    <span>Hình ảnh</span>
+                </div>
+
+                <div class="card-info card-size center_text">
+                    <span>Điện thoại</span>
+                </div>
+
+                <div class="card-price card-size center_text">
+                    <span>Giá tiền</span>
+                </div>
+
+                <div class="card-quantity card-size center_text">
+                    <span>Số lượng</span>
+                </div>
+
+                <div class="card-total card-size center_text">
+                    <span>Tổng</span>
+                </div>
+
+                <div class="card-total card-size center_text">
+                    <span>Hủy</span>
+                </div>
+            </div>
+
+            <div class="form_cart">
+                
+            </div>
+        </div>
+
+        <div class="order">
+            <div class="title-order text-muted"><h3>Tóm Tắt Đơn Hàng</h3></div>
+
+            <div class="info">
+                <div><span class="text-muted info-text">Tổng Tiền hàng</span></div>
+                <div class="text-muted info-text all_product_total_tong_tien_hang">0 ₫</div>
+            </div>
+
+            <div class="info">
+                <div><span class="text-muted info-text">Giảm Giá</span></div>
+                <div class="text-muted info-text all_product_total_discount">0 ₫</div>
+            </div>
+
+            <div class="info">
+                <div><span class="text-muted info-text">Tạm Tính</span></div>
+                <div class="text-muted info-text all_product_total_tam_tinh">0 ₫</div>
+            </div>
+
+            <div class="info">
+                <div><span class="text-muted info-text">Tổng Tiền</span></div>
+                <div class="text-muted info-text all_product_total_tong_tien">0 ₫</div>
+            </div>
+
+            <div class="button-order">
+                <button class="button-order-orange btn_order_product">TIẾN HÀNH ĐẶT HÀNG</button>
+                <button class="button-order-blue btn_move_home">MUA THÊM SẢN PHẨM</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getDataCart();
+            function getDataCart() {
+                // get total cart product
+                let dataStorageCart = sessionStorage.getItem("dataStorageCart");
+
+                if (dataStorageCart) {
+                    let parseDataStorageCart = JSON.parse(dataStorageCart);
+
+                    for (let i = 0; i < parseDataStorageCart.length; i++) {
+                        let el = parseDataStorageCart[i];
+
+                        $(".form_cart").append(`
+                            <div class="card-item-info data_form_cart" data-masanpham="${el.masanpham}">
+                                <div class="card-img card-size text-muted">
+                                    <img src="${el.urlhinhanh}"
+                                         alt="" />
+                                </div>
+
+                                <div class="card-info card-size text-muted center_text">
+                                    <span>${el.tensanpham}</span>
+                                </div>
+
+                                <div class="card-price card-size text-muted center_text">
+                                    <span class="price_product" data-price="${el.giasanpham}">${parseFloat(el.giasanpham).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }</span>
+                                </div>
+
+                                <div class="card-quantity card-size text-muted center_text">
+                                    <button class="volumn_tru">-</button>
+                                    <div class="volumn_text">${el.soluong ? el.soluong : '1'}</div>
+                                    <button class="volumn_cong">+</button>
+                                </div>
+
+                                <div class="card-total card-size text-muted center_text">
+                                    <span class="price_product_total">${parseFloat(el.giasanpham * (el.soluong ? el.soluong : 1)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }</span>
+                                </div>
+                                <div class="card-total-delete card-size text-muted center_text">
+                                    <button type="button" class="btn btn-danger btn_cancel_cart">Hủy</button>
+                                </div>
+                            </div>
+                        `);
+                    }
+                }
+
+                priceTotal();
+            }
+
+            function priceTotal() {
+                let total_price = 0;
+                $(".data_form_cart").each(function (index) {
+                    let giasanpham = $(this).find(".price_product").data().price;
+                    let soluong = $(this).find(".volumn_text").text();
+                    total_price += giasanpham * soluong;
+                });
+                $(".all_product_total_tong_tien_hang").text(parseFloat(total_price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                $(".all_product_total_tam_tinh").text(parseFloat(total_price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                $(".all_product_total_tong_tien").text(parseFloat(total_price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+            }
+
+            $(document).on('click', '.volumn_tru', function (e) {
+                let parent = $(this).parent().parent();
+                let masanpham = parent.data().masanpham;
+                let soluong = $(parent).find(".volumn_text").text();
+                let storeSoluong = 0;
+                if (soluong > 1) {
+                    storeSoluong = Number(soluong) - 1;
+                    $(parent).find(".volumn_text").text(storeSoluong);
+                    let priceProduct = $(parent).find(".price_product").data().price;
+                    $(parent).find(".price_product_total").text(parseFloat(priceProduct * storeSoluong).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                }
+                priceTotal();
+
+                // session
+                let dataStorageCart = sessionStorage.getItem("dataStorageCart");
+
+                if (dataStorageCart) {
+                    let parseDataStorageCart = JSON.parse(dataStorageCart);
+
+                    const findIndex = parseDataStorageCart.findIndex(v => v.masanpham == masanpham);
+
+                    if (findIndex >= 0) {
+                        parseDataStorageCart[findIndex].soluong = storeSoluong;
+                    }
+
+                    // set data to cart
+                    sessionStorage.setItem("dataStorageCart", JSON.stringify(parseDataStorageCart));
+                }
+            });
+
+            $(document).on('click', '.volumn_cong', function (e) {
+                let parent = $(this).parent().parent();
+                let masanpham = parent.data().masanpham;
+                let soluong = $(parent).find(".volumn_text").text();
+                let storeSoluong = Number(soluong) + 1;
+                $(parent).find(".volumn_text").text(storeSoluong);
+                let priceProduct = $(parent).find(".price_product").data().price;
+                $(parent).find(".price_product_total").text(parseFloat(priceProduct * storeSoluong).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                priceTotal();
+
+                // session
+                let dataStorageCart = sessionStorage.getItem("dataStorageCart");
+
+                if (dataStorageCart) {
+                    let parseDataStorageCart = JSON.parse(dataStorageCart);
+
+                    const findIndex = parseDataStorageCart.findIndex(v => v.masanpham == masanpham);
+
+                    if (findIndex >= 0) {
+                        parseDataStorageCart[findIndex].soluong = storeSoluong;
+                    }
+
+                    // set data to cart
+                    sessionStorage.setItem("dataStorageCart", JSON.stringify(parseDataStorageCart));
+                }
+            });
+
+            $(document).on('click', '.btn_cancel_cart', function (e) {
+                let parent = $(this).parent().parent();
+                let masanpham = parent.data().masanpham;
+
+                parent.remove();
+                priceTotal();
+
+                // session
+                let dataStorageCart = sessionStorage.getItem("dataStorageCart");
+
+                if (dataStorageCart) {
+                    let parseDataStorageCart = JSON.parse(dataStorageCart);
+
+                    //  filter
+                    const filterData = parseDataStorageCart.filter(v => v.masanpham != masanpham);
+
+                    // set data to cart
+                    sessionStorage.setItem("dataStorageCart", JSON.stringify(filterData));
+                }
+            });
+
+            $(document).on('click', '.btn_move_home', function (e) {
+                location.href = '@Url.RouteUrl("Default", new { controller = "Home", action = "Index" })';
+            });
+
+            $(document).on('click', '.btn_order_product', function (e) {
+                // session
+                let dataStorageCart = sessionStorage.getItem("dataStorageCart");
+
+                if (dataStorageCart) {
+                    let parseDataStorageCart = JSON.parse(dataStorageCart);
+
+                    if (parseDataStorageCart.length > 0) {
+
+                    } else {
+                        alert("không có sản phẩm để đặt hàng!");
+                    }
+                } else {
+                    alert("không có sản phẩm để đặt hàng!");
+                }
+            });
+        });
+    </script>
+}

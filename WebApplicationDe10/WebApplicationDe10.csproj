@@ -134,6 +134,8 @@
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\SanPhamController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\GioHangController.cs" />
+    <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -163,6 +165,8 @@
     <Compile Include="Services\Admin\HomeService.cs" />
     <Compile Include="Services\Admin\SanPhamService.cs" />
     <Compile Include="Services\Admin\UserService.cs" />
+    <Compile Include="Services\ChiTietSanPhamService.cs" />
+    <Compile Include="Services\GioHangService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +186,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\cart.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\allin.jpg" />
     <Content Include="Content\Images\banner_1.jpg" />
     <Content Include="Content\Images\banner_2.jpg" />
     <Content Include="Content\Images\banner_3.jpg" />
+    <Content Include="Content\detailsProduct.css" />
     <Content Include="Css\user-layout.css" />
     <Content Include="Css\login-layout.css" />
     <Content Include="Css\custom.css" />
@@ -248,6 +254,8 @@
     <Content Include="Views\Admin\ThuongHieu\Create.cshtml" />
     <Content Include="Views\Admin\ThuongHieu\Index.cshtml" />
     <Content Include="Views\Admin\ThongTinDatHang\Index.cshtml" />
+    <Content Include="Views\SanPham\ChiTiet.cshtml" />
+    <Content Include="Views\GioHang\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
