@@ -1,0 +1,43 @@
+﻿.card-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-item-title {
+    margin-top: 15px;
+    display: flex;
+    height: 25px;
+    background-color: #dfdbd9;
+    border-radius: 4px;
+}
+
+.card-item-info {
+    display: flex;
+    height: 116px;
+    border-radius: 4px;
+    border-bottom: 1px solid #e2dddc;
+}
+
+.card-size {
+    width: 89%;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+}
+
+.card-quantity {
+    display: flex;
+    height: 30px;
+    gap: 5px;
+}
+
+    .card-quantity button {
+        border-radius: 2px;
+        background: #d6d5d4;
+        border: none;
+    }
+
+.form-oder {
+    margin-top: 10px;
+}

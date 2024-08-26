@@ -93,7 +93,14 @@
                 </div>
 
                 <div class="btn-buy">
-                    <button class="btn-buy-now">Mua Ngay</button>
+                    <button 
+                        class="btn-buy-now"
+                        data-giasanpham="@ViewBag.Product.GiaSanPham"
+                        data-masanpham="@ViewBag.Product.MaSanPham"
+                        data-soluong="1"
+                        data-tensanpham="@ViewBag.Product.TenSanPham"
+                        data-urlhinhanh="@ViewBag.Product.URLHinhAnh"
+                    >Mua Ngay</button>
                 </div>
             </div>
         </div>
@@ -136,7 +143,12 @@
                 $(document).on('click', '.btn-buy-now', function (e) {
                     let data = $(this).data();
 
-                    console.log(data);
+                    sessionStorage.removeItem("dataProduct");
+
+                    sessionStorage.setItem("dataProduct", JSON.stringify([data]));
+
+                    let url = '@Url.RouteUrl("Default", new { controller = "DatHang", action = "Form" })';
+                    location.href = url + '?is=0';
                 });
             });
         </script>

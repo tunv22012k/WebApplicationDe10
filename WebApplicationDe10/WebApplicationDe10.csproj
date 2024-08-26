@@ -134,6 +134,7 @@
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\SanPhamController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\DatHangController.cs" />
     <Compile Include="Controllers\GioiThieuController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\SanPhamController.cs" />
@@ -144,6 +145,8 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\InfoUserLogin.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
+    <Compile Include="Models\DatHangViewModel.cs" />
+    <Compile Include="Models\SanPhamDatHangViewModel.cs" />
     <Compile Include="Models\SanPhamViewModel.cs" />
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Models\DanhMucSanPham.cs" />
@@ -152,12 +155,8 @@
     <Compile Include="Models\ThongSoKyThuatSP.cs" />
     <Compile Include="Models\KhachHang.cs" />
     <Compile Include="Models\DonHang.cs" />
-    <Compile Include="Models\ChiTietDonHang.cs" />
-    <Compile Include="Models\LichSuTrangThaiDonHang.cs" />
-    <Compile Include="Models\DiaChiGiaoHang.cs" />
     <Compile Include="Models\MaGiamGia.cs" />
     <Compile Include="Models\QuanTriVien.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\Admin\ThongTinDatHangService.cs" />
@@ -167,6 +166,7 @@
     <Compile Include="Services\Admin\SanPhamService.cs" />
     <Compile Include="Services\Admin\UserService.cs" />
     <Compile Include="Services\ChiTietSanPhamService.cs" />
+    <Compile Include="Services\DatHangService.cs" />
     <Compile Include="Services\GioHangService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
@@ -187,6 +187,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\datHang.css" />
     <Content Include="Content\cart.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -258,6 +259,7 @@
     <Content Include="Views\SanPham\ChiTiet.cshtml" />
     <Content Include="Views\GioHang\Index.cshtml" />
     <Content Include="Views\GioiThieu\Index.cshtml" />
+    <Content Include="Views\DatHang\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

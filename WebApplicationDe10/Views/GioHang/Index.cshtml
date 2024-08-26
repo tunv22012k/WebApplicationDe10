@@ -249,7 +249,8 @@
                     let parseDataStorageCart = JSON.parse(dataStorageCart);
 
                     if (parseDataStorageCart.length > 0) {
-
+                        let url = '@Url.RouteUrl("Default", new { controller = "DatHang", action = "Form" })';
+                        location.href = url + '?is=1';
                     } else {
                         alert("không có sản phẩm để đặt hàng!");
                     }

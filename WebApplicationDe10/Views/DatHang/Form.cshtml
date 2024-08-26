@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.Title = "Đặt hàng";
+}
+
+<link rel="stylesheet" href="~/Content/datHang.css" />
+
+<style>
+    .div_content {
+        min-height: 600px;
+    }
+
+    .card-img img {
+        max-width: 100px;
+        height: auto;
+        object-fit: contain;
+        transform-origin: center; /* Giữ điểm gốc để thu nhỏ ở giữa */
+    }
+
+    .center_text {
+        vertical-align: middle; /* Căn giữa theo chiều dọc */
+        text-align: center; /* Căn giữa theo chiều ngang (nếu cần) */
+        align-items: center;
+    }
+
+    .card-item-info {
+        height: auto
+    }
+
+    .card-size {
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .form_data_storage {
+        height: 0px !important;
+        visibility: hidden;
+    }
+    .data_hidden {
+        height: 0px !important;
+        width: 0px !important;
+    }
+</style>
+
+<div class="container form-oder">
+    <div class="card-item">
+        <div class="card-item-title">
+            <div class="card-img card-size">
+                <span>Hình ảnh</span>
+            </div>
+
+            <div class="card-info card-size">
+                <span>Điện thoại</span>
+            </div>
+
+            <div class="card-price card-size">
+                <span>Giá tiền</span>
+            </div>
+
+            <div class="card-quantity card-size">
+                <span>Số lượng</span>
+            </div>
+
+            <div class="card-total card-size">
+                <span>Tổng</span>
+            </div>
+        </div>
+
+        <div class="form_cart">
+
+        </div>
+    </div>
+
+    <form method="POST" action="/DatHang/Create" class="form_data">
+        <div class="form-oder">
+            <div class="form-oder-phone">
+                <h3>
+                    <small class="text-muted"> Thông tin giao hàng</small>
+                </h3>
+            </div>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput " class="form-label text-muted">Họ và Tên</label>
+                <input type="text" class="form-control" name="TenKhachHang" id="formGroupExampleInput" />
+            </div>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label text-muted">Số điện thoại</label>
+                <input type="text" class="form-control" name="DienThoai" id="formGroupExampleInput2" />
+            </div>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput3" class="form-label text-muted">Địa chỉ nơi ở</label>
+                <input type="text" class="form-control" name="DiaChi" id="formGroupExampleInput2" />
+            </div>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput4" class="form-label text-muted">Email</label>
+                <input type="email" class="form-control" name="Email" id="formGroupExampleInput2" />
+            </div>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput5" class="form-label text-muted">Địa chỉ nhận hàng</label>
+                <input type="text" class="form-control" name="DiaChiGiaoHang" id="formGroupExampleInput2" />
+            </div>
+
+            <div class="mb-3" style="margin-top: 10px;">
+                <button type="button" class="btn btn-primary btn_order_product">Đặt hàng</button>
+            </div>
+            <div class="form_storage">
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+
+            // get total cart product
+            let dataStorageCart = getUrlVars()["is"] == 0 ? sessionStorage.getItem("dataProduct") : sessionStorage.getItem("dataStorageCart");
+
+            let SanPhamDatHangViewModel = [];
+
+            if (dataStorageCart) {
+                let parseDataStorageCart = JSON.parse(dataStorageCart);
+
+                for (let i = 0; i < parseDataStorageCart.length; i++) {
+                    let el = parseDataStorageCart[i];
+
+                    let index = $(".form_data_storage").length;
+                    var template = `
+                        <div class="form_data_storage">
+                            <input type="text" class="data_hidden" name="SanPhamDatHangViewModel[${index}].MaSanPham" value="${el.masanpham}" />
+                            <input type="text" class="data_hidden" name="SanPhamDatHangViewModel[${index}].SoLuong" value="${el.soluong}" />
+                            <input type="text" class="data_hidden" name="SanPhamDatHangViewModel[${index}].GiaSanPham" value="${el.giasanpham}" />
+                            <input type="text" class="data_hidden" name="SanPhamDatHangViewModel[${index}].TongTien" value="${el.giasanpham * (el.soluong ? el.soluong : 1) }" />
+                        </div>
+                    `;
+                    $('.form_storage').append(template);
+
+                    // set html
+                    $(".form_cart").append(`
+                        <div class="card-item-info data_form_cart" data-masanpham="${el.masanpham}">
+                            <div class="card-img card-size text-muted">
+                                <img src="${el.urlhinhanh}"
+                                     alt="" />
+                            </div>
+
+                            <div class="card-info card-size text-muted center_text">
+                                <span>${el.tensanpham}</span>
+                            </div>
+
+                            <div class="card-price card-size text-muted center_text">
+                                <span class="price_product" data-price="${el.giasanpham}">${parseFloat(el.giasanpham).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                            </div>
+
+                            <div class="card-quantity card-size text-muted center_text">
+                                <div class="volumn_text">${el.soluong ? el.soluong : '1'}</div>
+                            </div>
+
+                            <div class="card-total card-size text-muted center_text">
+                                <span class="price_product_total">${parseFloat(el.giasanpham * (el.soluong ? el.soluong : 1)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                            </div>
+                        </div>
+                    `);
+                }
+            }
+
+            $(".form_data").validate({
+                rules: {
+                    TenKhachHang: {
+                        required: true,
+                        maxlength: 100
+                    },
+                    DienThoai: {
+                        required: true,
+                        maxlength: 15
+                    },
+                    DiaChi: {
+                        required: true,
+                        maxlength: 100
+                    },
+                    Email: {
+                        required: true,
+                        maxlength: 100,
+                        email: true
+                    },
+                    DiaChiGiaoHang: {
+                        required: true,
+                        maxlength: 100,
+                    }
+                }
+            });
+
+            $(document).on('click', '.btn_order_product', function (e) {
+                // set data
+                $.ajax({
+                    url: '@Url.RouteUrl("Default", new { controller = "DatHang", action = "Create" })',
+                    type: 'POST',
+                    data: $(".form_data").serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Đặt hàng thành công");
+                            getUrlVars()["is"] == 0 ? sessionStorage.removeItem("dataProduct") : sessionStorage.removeItem("dataStorageCart");
+                            location.href = '@Url.RouteUrl("Default", new { controller = "Home", action = "Index" })';
+                        } else {
+                            alert("Đặt hàng thất bại");
+                        }
+                    },
+                    error: function () {
+                        alert("Đã xảy ra lỗi khi đặt hàng");
+                    }
+                });
+            });
+        });
+    </script>
+}
