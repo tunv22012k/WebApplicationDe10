@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Danh mục sản phẩm";
+}
+
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+    }
+
+    .cursor_pointer {
+        cursor: pointer;
+    }
+    .min_height {
+        min-height: 600px;
+    }
+</style>
+
+<section class="py-5 min_height">
+    <div class="container div_content">
+        Danh muc > @ViewBag.DanhMucSanPham.TenDanhMuc
+    </div>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+            @foreach (var item2 in @ViewBag.ListSanPham)
+            {
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top cursor_pointer seen_detail" data-masanpham="@item2.MaSanPham" src="@item2.URLHinhAnh" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4 cursor_pointer seen_detail" data-masanpham="@item2.MaSanPham">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">@item2.TenSanPham</h5>
+                                <!-- Product price-->
+                                @item2.GiaSanPham.ToString("#,##0").Replace(",", ".") ₫
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto add_to_cart"
+                                   href="javascript:void(0)"
+                                   data-masanpham="@item2.MaSanPham"
+                                   data-tensanpham="@item2.TenSanPham"
+                                   data-giasanpham="@item2.GiaSanPham"
+                                   data-urlhinhanh="@item2.URLHinhAnh">Thêm vào giỏ hàng</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Thêm các script khác ở đây -->
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.seen_detail', function (e) {
+                let data = $(this).data();
+
+                // Generate the base URL with Razor
+                let url = '@Url.RouteUrl("Default", new { controller = "SanPham", action = "ChiTiet" })';
+
+                // Navigate to the constructed URL
+                location.href = url += "?MaSanPham=" + data.masanpham;
+            });
+        });
+    </script>
+}

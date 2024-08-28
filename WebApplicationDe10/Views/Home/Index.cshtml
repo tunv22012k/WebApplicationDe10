@@ -179,7 +179,11 @@
                 $(document).on('click', '.seen_all', function (e) {
                     let data = $(this).data();
 
-                    console.log(data);
+                    // Generate the base URL with Razor
+                    let url = '@Url.RouteUrl("Default", new { controller = "DanhMucSanPham", action = "Index" })';
+
+                    // Navigate to the constructed URL
+                    location.href = url += "?MaDanhMuc=" + data.madanhmuc;
                 });
             });
         </script>

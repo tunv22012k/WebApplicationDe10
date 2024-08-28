@@ -9,6 +9,9 @@
     @Styles.Render("~/Css/custom.css")
     @Styles.Render("~/Css/user-layout.css")
     @Scripts.Render("~/bundles/modernizr")
+    @{
+        var ListDanhMucSanPham = WebApplicationDe10.Helpers.ListDanhMuc.GetDanhMucSanPham();
+    }
 </head>
 <body>
     <!-- Navigation-->
@@ -22,12 +25,12 @@
                     <li class="nav-item"><a class="nav-link @(ViewBag.ActivePage == "GioiThieu" ? "active" : "")" href="@Url.RouteUrl("Default", new { controller = "GioiThieu", action = "Index" })">Giới thiệu</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Tin tức</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="javascript:void(0)" role="button" aria-expanded="false">Danh mục</a>
+                        <a class="nav-link dropdown-toggle @(ViewBag.ActivePage == "DanhMuc" ? "active" : "")" id="navbarDropdown" href="javascript:void(0)" role="button" aria-expanded="false">Danh mục</a>
                         <ul class="dropdown-menu dropdown_menu_user" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                            @foreach (var item in ListDanhMucSanPham)
+                            {
+                                <li><a class="dropdown-item" href="@Url.RouteUrl("Default", new { controller = "DanhMucSanPham", action = "index", MaDanhMuc = item.MaDanhMuc })">@item.TenDanhMuc</a></li>
+                            }
                         </ul>
                     </li>
                 </ul>
