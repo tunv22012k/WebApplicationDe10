@@ -10,7 +10,7 @@ namespace WebApplicationDe10.Models
         public int MaDonHang { get; set; }
         public int MaKhachHang { get; set; }
         public int MaSanPham { get; set; }
-        public int MaPhieuGiamGia { get; set; }
+        public int? MaPhieuGiamGia { get; set; }
         public int SoLuong { get; set; }
         public decimal GiaDonVi { get; set; }
         public decimal? GiamGia { get; set; }
@@ -22,5 +22,7 @@ namespace WebApplicationDe10.Models
         public string PhuongThucGiaoHang { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
+        public string TenKhachHang { get; set; }
+        public string TenSanPham { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using WebApplicationDe10.Helpers;
+using WebApplicationDe10.Models;
 using WebApplicationDe10.Services.Admin;
 
 namespace WebApplicationDe10.Controllers.Admin
@@ -13,10 +14,10 @@ namespace WebApplicationDe10.Controllers.Admin
             thongTinDatHangService = new ThongTinDatHangService();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(DonHang donHang)
         {
             ViewBag.ActivePage = "InfoCart";
-            // ViewBag.listDanhMuc = danhMucService.GetAllThongTinDatHang(danhMucSanPham);
+            ViewBag.listThongTinDatHang = thongTinDatHangService.GetAllDonHang(donHang);
             // ViewBag.paramsGet = danhMucSanPham;
             return View("~/Views/Admin/ThongTinDatHang/Index.cshtml");
         }
