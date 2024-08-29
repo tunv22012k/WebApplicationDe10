@@ -18,5 +18,6 @@ namespace WebApplicationDe10.Models
         public int ThoiGianBaoHanh { get; set; }
         public DateTime NgayRaMat { get; set; }
         public List<ThongSoKyThuatSP> ThongSoKyThuatSP { get; set; }
+        public List<HttpPostedFileBase> HinhAnhFiles { get; set; }
     }
 }

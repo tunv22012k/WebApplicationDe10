@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using WebApplicationDe10.Helpers;
 using WebApplicationDe10.Models;
@@ -66,7 +67,8 @@ namespace WebApplicationDe10.Controllers.Admin
                     SoLuongTonKho       = SanPhamViewModel.SoLuongTonKho,
                     ThoiGianBaoHanh     = SanPhamViewModel.ThoiGianBaoHanh,
                     NgayRaMat           = SanPhamViewModel.NgayRaMat,
-                    ThongSoKyThuatSPs   = new List<ThongSoKyThuatSP>()
+                    ThongSoKyThuatSPs   = new List<ThongSoKyThuatSP>(),
+                    HinhAnhSanPham      = new List<HinhAnhSanPham>(),
                 };
 
                 if (SanPhamViewModel.ThongSoKyThuatSP != null)
@@ -82,15 +84,35 @@ namespace WebApplicationDe10.Controllers.Admin
                     }
                 }
 
+                // Lưu hình ảnh khác
+                foreach (var file in SanPhamViewModel.HinhAnhFiles)
+                {
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string fileName2 = null;
+                        fileName2 = Path.GetFileName(file.FileName);
+                        string path2 = Path.Combine(Server.MapPath("~/Content/ImagesUpload/"), fileName2);
+
+                        // Lưu hình ảnh vào thư mục Images
+                        file.SaveAs(path2);
+
+                        var hinhAnh = new HinhAnhSanPham
+                        {
+                            MaSanPham = sanPham.MaSanPham,
+                            URLHinhAnh = fileName2 != null ? "/Content/ImagesUpload/" + fileName2 : null,
+                        };
+
+                        sanPham.HinhAnhSanPham.Add(hinhAnh);
+                    }
+                }
+
                 bool success = sanPhamService.CreateSanPham(sanPham);
                 if (success)
                 {
                     return RedirectToAction("Index", "SanPham", new { area = "Admin" });
                 }
             }
-            ViewBag.listDanhMuc = sanPhamService.GetAllDanhMuc();
-            ViewBag.listThuongHieu = sanPhamService.GetAllThuongHieu();
-            return View(SanPhamViewModel);
+            return View("~/Views/Admin/SanPham/Create.cshtml");
         }
 
         [HttpPost]

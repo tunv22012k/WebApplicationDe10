@@ -73,6 +73,7 @@ namespace WebApplicationDe10.Services
                         productData.sanPham.NgayCapNhat     = reader["NgayCapNhat"] != DBNull.Value ? Convert.ToDateTime(reader["NgayCapNhat"]) : (DateTime?)null;
                         productData.sanPham.TenDanhMuc      = reader["TenDanhMuc"].ToString();
                         productData.sanPham.TenThuongHieu   = reader["TenThuongHieu"].ToString();
+                        productData.sanPham.HinhAnhSanPham  = GetHinhAnhSanPham((int)reader["MaSanPham"]);
                     }
                 }
 
@@ -103,6 +104,47 @@ namespace WebApplicationDe10.Services
             }
 
             return productData;
+        }
+
+        private List<HinhAnhSanPham> GetHinhAnhSanPham(int maSanPham)
+        {
+            List<HinhAnhSanPham> hinhAnhSanPhamList = new List<HinhAnhSanPham>();
+
+            using (var connection = new SqlConnection(DatabaseHelper.connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+                    SELECT 
+                        *
+                    FROM 
+                        HinhAnhSanPham 
+                    WHERE 
+                        MaSanPham = @MaSanPham
+                ";
+
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@MaSanPham", maSanPham);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var hinhAnhSanPham = new HinhAnhSanPham
+                            {
+                                MaHinhAnh   = (int)reader["MaHinhAnh"],
+                                MaSanPham   = (int)reader["MaSanPham"],
+                                URLHinhAnh  = reader["URLHinhAnh"].ToString(),
+                            };
+
+                            hinhAnhSanPhamList.Add(hinhAnhSanPham);
+                        }
+                    }
+                }
+            }
+
+            return hinhAnhSanPhamList;
         }
     }
 }

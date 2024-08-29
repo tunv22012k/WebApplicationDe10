@@ -285,6 +285,29 @@ namespace WebApplicationDe10.Services.Admin
                         cmd2.ExecuteNonQuery();
                     }
 
+                    // tạo thông số
+                    foreach (var hinhAnhSanPham in sanPham.HinhAnhSanPham)
+                    {
+                        string query3 = @"
+                        INSERT INTO HinhAnhSanPham 
+                        (
+                            MaSanPham,
+                            URLHinhAnh
+                        ) 
+                        VALUES 
+                        (
+                            @MaSanPham,
+                            @URLHinhAnh
+                        )
+                    ";
+
+                        SqlCommand cmd3 = new SqlCommand(query3, connection, transaction);
+                        cmd3.Parameters.AddWithValue("@MaSanPham", maSanPham);
+                        cmd3.Parameters.AddWithValue("@URLHinhAnh", hinhAnhSanPham.URLHinhAnh);
+
+                        cmd3.ExecuteNonQuery();
+                    }
+
                     // Nếu số hàng bị ảnh hưởng lớn hơn 0, quá trình chèn đã thành công
                     isSuccess = maSanPham > 0;
 

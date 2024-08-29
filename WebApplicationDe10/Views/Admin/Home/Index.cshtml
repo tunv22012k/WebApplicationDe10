@@ -40,24 +40,24 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Email</th>
-                    <th>Tên quản trị viên</th>
-                    <th>Ngày tạo</th>
-                    <th>Ngày cập nhật</th>
-                    <th>Options</th>
+                    <th class="id">Id</th>
+                    <th class="email">Email</th>
+                    <th class="quantrivien">Tên quản trị viên</th>
+                    <th class="ngaytao">Ngày tạo</th>
+                    <th class="ngaycapnhat">Ngày cập nhật</th>
+                    <th class="option">Options</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in @ViewBag.listUser)
                 {
                     <tr>
-                        <td>@item.MaQuanTriVien</td>
-                        <td>@item.Email</td>
-                        <td>@item.TenQuanTriVien</td>
-                        <td>@item.NgayTao</td>
-                        <td>@item.NgayCapNhat</td>
-                        <td>
+                        <td class="id">@item.MaQuanTriVien</td>
+                        <td class="email">@item.Email</td>
+                        <td class="quantrivien">@item.TenQuanTriVien</td>
+                        <td class="ngaytao">@item.NgayTao</td>
+                        <td class="ngaycapnhat">@item.NgayCapNhat</td>
+                        <td class="option">
                             @if (userLogin == null || (userLogin != null && (int)userLogin.MaQuanTriVien != item.MaQuanTriVien))
                             {
                                 <button class="btn btn-warning btn-edit"

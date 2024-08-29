@@ -59,6 +59,13 @@
             <label class="form-label">Hình ảnh</label>
             <input type="file" class="form-control" name="URLHinhAnh" id="URLHinhAnh" accept="image/*" />
         </div>
+        <div class="form_chi_tiet_hinh_anh">
+            <label class="form-label">Chi tiết hình ảnh</label>
+            <input type="file" class="form-control" accept="image/*" name="HinhAnhFiles" />
+        </div>
+        <div class="col-12">
+            <button type="button" id="addChiTietHinhAnh" class="btn btn-dark">Thêm chi tiết hình ảnh</button>
+        </div>
         <div class="col-md-12" id="thongSoKyThuatContainer">
         </div>
         <div class="col-12">
@@ -85,6 +92,13 @@
                     </div>
                 `;
                 $('#thongSoKyThuatContainer').append(template);
+            });
+
+            $('#addChiTietHinhAnh').click(function () {
+                var template = `
+                    <input type="file" class="form-control mt-2" accept="image/*" name="HinhAnhFiles" />
+                `;
+                $('.form_chi_tiet_hinh_anh').append(template);
             });
 
             $("form").validate({
@@ -114,6 +128,12 @@
                     NgayRaMat: {
                         required: true
                     },
+                    URLHinhAnh: {
+                        required: true
+                    },
+                    HinhAnhFiles: {
+                        required: true
+                    }
                 }
             });
         });

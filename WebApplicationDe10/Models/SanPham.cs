@@ -23,5 +23,6 @@ namespace WebApplicationDe10.Models
         public string TenDanhMuc { get; set; }
         public string TenThuongHieu { get; set; }
         public virtual List<ThongSoKyThuatSP> ThongSoKyThuatSPs { get; set; }
+        public virtual List<HinhAnhSanPham> HinhAnhSanPham { get; set; }
     }
 }
